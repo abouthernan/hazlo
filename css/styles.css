@@ -3319,8 +3319,26 @@ img.u-pull-left {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.3);
     z-index: 0;
+}
+
+/* Overlay con gradiente - oscurece hacia abajo */
+.s-intro::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0) 0%,           /* Transparente arriba */
+        rgba(0, 0, 0, 0.1) 30%,        /* Poco oscuro */
+        rgba(0, 0, 0, 0.3) 60%,        /* Más oscuro */
+        rgba(0, 0, 0, 0.9) 100%        /* Muy oscuro abajo */
+    );
+    z-index: 0;
+    pointer-events: none;
 }
 
 /* Asegurar que el contenido esté por encima */
