@@ -90,7 +90,18 @@
             ----------------------------------------------- -->
             <section id="intro" class="s-intro target-section">
 
-                <div class="s-intro__bg"></div>
+                <!--<div class="s-intro__bg"></div>-->
+
+                <!-- DESPUÉS -->
+                <video class="s-intro__video-bg" autoplay muted loop playsinline>
+                    <source src="videos/back-video-hazlo-home.mp4" type="video/mp4">
+                    <source src="videos/back-video-hazlo-home.webm" type="video/webm">
+                    <!-- Imagen de respaldo si el video no carga -->
+                    <img src="images/intro-bg.jpg" alt="Background">
+                </video>
+
+                <!-- Div de respaldo para imagen (se oculta si hay video) -->
+                <div class="s-intro__bg" style="display: none;"></div>
 
                 
 
