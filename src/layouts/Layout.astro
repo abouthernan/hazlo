@@ -1,22 +1,324 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Hazlo - La mejor herramienta para tu productividad" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Subtle Gradient Background -->
+    <div class="gradient-background"></div>
+    
+    <slot />
+    
+    <script>
+      // Función para aplicar el tema
+      function applyTheme(theme: string) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        // Actualizar icono del toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        if (themeToggle) {
+          themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+      }
+
+      // Función para alternar el tema
+      function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+      }
+
+      // Inicializar tema
+      function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme) {
+          applyTheme(savedTheme);
+        } else if (prefersDark) {
+          applyTheme('dark');
+        } else {
+          applyTheme('light');
+        }
+      }
+
+      // Ejecutar al cargar la página
+      document.addEventListener('DOMContentLoaded', initTheme);
+
+      // Hacer toggleTheme global para usarla en componentes
+      (window as any).toggleTheme = toggleTheme;
+
+      // Escuchar cambios en las preferencias del sistema
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    </script>
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  /* Variables CSS Globales */
+  :root {
+    /* Colores principales de marca */
+    --primary-purple: #463273;
+    --primary-blue: #6BE8B6;
+    
+    /* Modo Light (por defecto) */
+    --background: #ffffff;
+    --background-secondary: #f8fafc;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --border: #e2e8f0;
+    --border-light: #f1f5f9;
+    
+    /* Tipografía */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-h1: 800 3.5rem/1.1 var(--font-family);
+    --font-h2: 700 2.5rem/1.2 var(--font-family);
+    --font-h3: 600 1.8rem/1.3 var(--font-family);
+    --font-body: 400 1rem/1.6 var(--font-family);
+    --font-body-lg: 400 1.125rem/1.6 var(--font-family);
+    --font-small: 400 0.875rem/1.5 var(--font-family);
+    
+    /* Espaciado */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+    
+    /* Bordes y sombras */
+    --radius: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    
+    /* Transiciones */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Modo Dark */
+  [data-theme="dark"] {
+    --background: #0f172a;
+    --background-secondary: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --surface: #1e293b;
+    --surface-hover: #334155;
+    --border: #334155;
+    --border-light: #475569;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  }
+
+  /* Reset y estilos base */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font: var(--font-body);
+    color: var(--text-primary);
+    background-color: var(--background);
+    transition: var(--transition);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Subtle Gradient Background */
+  .gradient-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at top center, 
+      rgba(70, 50, 115, 0.08) 0%, 
+      rgba(107, 232, 182, 0.04) 35%, 
+      transparent 70%);
+  }
+
+  /* Modo dark - gradiente más visible */
+  [data-theme="dark"] .gradient-background {
+    background: radial-gradient(ellipse at top center, 
+      rgba(70, 50, 115, 0.15) 0%, 
+      rgba(107, 232, 182, 0.08) 35%, 
+      transparent 70%);
+  }
+
+  /* Modo light - gradiente más sutil */
+  [data-theme="light"] .gradient-background {
+    background: radial-gradient(ellipse at top center, 
+      rgba(70, 50, 115, 0.04) 0%, 
+      rgba(107, 232, 182, 0.02) 35%, 
+      transparent 70%);
+  }
+
+  /* Tipografía global */
+  h1 {
+    font: var(--font-h1);
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    font: var(--font-h2);
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+  }
+
+  h3 {
+    font: var(--font-h3);
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    font: var(--font-body);
+    color: var(--text-secondary);
+  }
+
+  .text-lg {
+    font: var(--font-body-lg);
+  }
+
+  .text-sm {
+    font: var(--font-small);
+  }
+
+  /* Utilidades de color */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .text-purple {
+    color: var(--primary-purple);
+  }
+
+  .text-blue {
+    color: var(--primary-blue);
+  }
+
+  /* Botones base */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-lg);
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+    color: white;
+    box-shadow: var(--shadow);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--surface-hover);
+  }
+
+  /* Toggle Theme Button */
+  .theme-toggle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .theme-toggle:hover {
+    background: var(--surface-hover);
+    transform: scale(1.05);
+  }
+
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+  }
+
+  @media (max-width: 768px) {
+    :root {
+      --font-h1: 700 2.5rem/1.1 var(--font-family);
+      --font-h2: 600 1.875rem/1.2 var(--font-family);
+    }
+    
+    .container {
+      padding: 0 var(--space-sm);
+    }
+  }
 </style>
