@@ -326,39 +326,6 @@ const { title, description = "Hazlo - La mejor herramienta para tu productividad
 
 <script>
 
-// Funciones del modal de video
-function openVideoModal() {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('demoVideo');
-  
-  if (modal && iframe) {
-    iframe.src = 'https://www.youtube.com/embed/iPezuDePMuc?autoplay=1&rel=0';
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-}
-
-function closeVideoModal() {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('demoVideo');
-  
-  if (modal && iframe) {
-    modal.classList.remove('active');
-    iframe.src = '';
-    document.body.style.overflow = 'auto';
-  }
-}
-
-// Hacer funciones globales
-window.openVideoModal = openVideoModal;
-window.closeVideoModal = closeVideoModal;
-
-// Cerrar modal con Escape
-document.addEventListener('keydown', function(event) {
-  if (event.key === 'Escape') {
-    closeVideoModal();
-  }
-});
 
 // Textos dinámicos
 const dynamicTexts = [
@@ -574,6 +541,72 @@ function createMessage(message, index) {
       });
 
 
+	  
+// FUNCIONES DE VIDEO - AMBOS TIPOS DE MODAL
+
+      // Modal del Hero (botón "Ver Demo") - ID fijo
+      function openVideoModal() {
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('demoVideo');
+        
+        if (modal && iframe) {
+          iframe.src = 'https://www.youtube.com/embed/iPezuDePMuc?autoplay=1&rel=0';
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      // Modal de Videos Section (dinámico) - ID variable
+      function openVideosModal(videoId: string) {
+        const modal = document.getElementById('videosModal');
+        const iframe = document.getElementById('videosModalVideo');
+        
+        if (modal && iframe) {
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      // Cerrar modal del Hero
+      function closeVideoModal() {
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('demoVideo');
+        
+        if (modal && iframe) {
+          modal.classList.remove('active');
+          iframe.src = '';
+          document.body.style.overflow = 'auto';
+        }
+      }
+
+      // Cerrar modal de Videos
+      function closeVideosModal() {
+        const modal = document.getElementById('videosModal');
+        const iframe = document.getElementById('videosModalVideo');
+        
+        if (modal && iframe) {
+          modal.classList.remove('active');
+          iframe.src = '';
+          document.body.style.overflow = 'auto';
+        }
+      }
+
+      // Hacer funciones globales
+      (window as any).openVideoModal = openVideoModal;
+      (window as any).closeVideoModal = closeVideoModal;
+      (window as any).openVideosModal = openVideosModal;
+      (window as any).closeVideosModal = closeVideosModal;
+
+      // Cerrar modales con Escape
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+          closeVideoModal();
+          closeVideosModal();
+        }
+      });
+
+	  
+
+
 </script>
-
-

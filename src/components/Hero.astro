@@ -7,7 +7,7 @@
     <div class="hero-content">
 
          <!-- Badge/Pill superior -->
-      <div class="hero-badge">
+      <div class="hero-badge mobile-mode">
         <span class="badge-icon">✨</span>
         <span class="badge-text">El Copiloto</span>
       </div>
@@ -21,7 +21,7 @@
 
       <!-- Subtítulo -->
       <p class="hero-subtitle">
-        Hazlo es el copiloto que ayuda a los emprendedores de LATAM a pasar de la idea a la acción.
+        Hazlo es el copiloto inteligente (AI) que ayuda a los emprendedores de LATAM a pasar de la idea a la acción.
       </p>
 
       <!-- CTAs -->
@@ -734,6 +734,7 @@
     }
 
     .hero-container {
+      
       padding: 0 var(--space-sm);
       gap: var(--space-xl);
     }
@@ -867,11 +868,20 @@
 
   @media (max-width: 480px) {
     .hero-title {
-      font-size: 2rem;
+      font-size: 3rem;
     }
 
-    .hero-badge {
-      padding: var(--space-xs) var(--space-sm);
+    .hero-container {
+      padding-top: 5rem;
+    }
+
+    .mobile-mode {
+    display: none;
+    }
+
+    .hero-badge {   
+        margin-top: 3rem;
+      padding: 0.1rem 0.9rem;
       font-size: 0.75rem;
     }
 

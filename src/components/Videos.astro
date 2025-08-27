@@ -1,0 +1,494 @@
+---
+// src/components/Videos.astro
+---
+
+<section class="videos-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-badge">
+                <span class="badge-icon">🎥</span>
+                <span class="badge-text">Contenido exclusivo</span>
+            </div>
+            <h2 class="section-title">
+                Aprende con <span class="title-gradient">expertos</span>
+            </h2>
+            <p class="section-subtitle">
+                Charlas, webinars y workshops con líderes del ecosistema
+                emprendedor
+            </p>
+        </div>
+
+        <div class="videos-grid">
+            <!-- Video 1: Charla -->
+            <div class="video-card">
+                <div class="video-type-badge">Charla</div>
+                <div class="video-container" data-video-id="gqhQowYi8OU" onclick="openVideosModal('gqhQowYi8OU')">
+                    <img src="/videos/back-video-1.png" alt="Charla Thumbnail" />
+                    <div class="video-overlay">
+                        <div class="play-button">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-info">
+                    <div class="video-details">
+                        <h3 class="video-title">
+                            Valida antes de Construir el MVP
+                        </h3>
+                        <div class="video-meta">
+                            <div class="video-partner">
+                                <div class="partner-dot"></div>
+                                <span>Damian Sanchez<br />Cofounder Novolabs</span>
+                            </div>
+                            <div class="video-duration">1h 45 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2: Webinar -->
+            <div class="video-card">
+                <div class="video-type-badge">Webinar</div>
+                <div class="video-container" data-video-id="CY4NGGlOugw" onclick="openVideosModal('CY4NGGlOugw')">
+                    <img src="/videos/back-video-nahuel.png" alt="Webinar Thumbnail" />
+                    <div class="video-overlay">
+                        <div class="play-button">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-info">
+                    <div class="video-details">
+                        <h3 class="video-title">
+                            Levanta capital para tu Startup
+                        </h3>
+                        <div class="video-meta">
+                            <div class="video-partner">
+                                <div class="partner-dot"></div>
+                                <span>Nahuel Lema<br />CEO de Coderhouse</span>
+                            </div>
+                            <div class="video-duration">1h 35 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 3: Workshop -->
+            <div class="video-card">
+                <div class="video-type-badge">Workshop</div>
+                <div class="video-container" data-video-id="E5rqHePG-60" onclick="openVideosModal('E5rqHePG-60')">
+                    <img src="/videos/back-video-salomon.png" alt="Workshop Thumbnail" />
+                    <div class="video-overlay">
+                        <div class="play-button">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-info">
+                    <div class="video-details">
+                        <h3 class="video-title">
+                            Crea un producto que todos quieran
+                        </h3>
+                        <div class="video-meta">
+                            <div class="video-partner">
+                                <div class="partner-dot"></div>
+                                <span>Salom Zarruk<br />CEO de Mono</span>
+                            </div>
+                            <div class="video-duration">57 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 4: Workshop -->
+            <div class="video-card">
+                <div class="video-type-badge">Workshop</div>
+                <div class="video-container" data-video-id="C5ZKq9csLpQ" onclick="openVideosModal('C5ZKq9csLpQ')">
+                    <img src="/videos/back-video-michel.png" alt="Workshop Thumbnail" />
+                    <div class="video-overlay">
+                        <div class="play-button">
+                            <div class="play-icon"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-info">
+                    <div class="video-details">
+                        <h3 class="video-title">Team Building</h3>
+                        <div class="video-meta">
+                            <div class="video-partner">
+                                <div class="partner-dot"></div>
+                                <span>Michel Haeuzeur<br />CEO la Corte de los Buhos</span>
+                            </div>
+                            <div class="video-duration">57 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Videos Modal (diferente al del Hero) -->
+    <div id="videosModal" class="video-modal">
+        <div class="modal-backdrop" onclick="closeVideosModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeVideosModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="video-container-modal">
+                <iframe id="videosModalVideo" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        font-size: 0.875rem;
+        color: #cbd5e1;
+        backdrop-filter: blur(10px);
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .videos-section {
+        padding: 6rem 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
+        line-height: 1.2;
+        letter-spacing: -0.025em;
+        color: #f8fafc;
+    }
+
+    .title-gradient {
+        background: linear-gradient(135deg, #463273 0%, #6be8b6 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+        font-size: 1.125rem;
+        color: #94a3b8;
+        margin: 0;
+        max-width: 500px;
+        margin: 0 auto;
+        line-height: 1.5;
+    }
+
+    .videos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 3rem;
+        margin-top: 3rem;
+    }
+
+    .video-card {
+        position: relative;
+        transition: transform 0.2s ease;
+    }
+
+    .video-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .video-container {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #1e293b;
+        margin-bottom: 1.5rem;
+        cursor: pointer;
+    }
+
+    .video-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .video-container:hover img {
+        transform: scale(1.05);
+    }
+
+    .video-info {
+        display: block;
+    }
+
+    .video-type-badge {
+        padding: 0.25rem 0.75rem;
+        background: rgba(107, 232, 182, 0.1);
+        border: 1px solid rgba(107, 232, 182, 0.2);
+        border-radius: 20px;
+        font-size: 0.75rem;
+        color: #6be8b6;
+        font-weight: 600;
+        text-transform: none;
+        letter-spacing: 0.05em;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+    .video-details {
+        width: 100%;
+    }
+
+    .video-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #f8fafc;
+        margin: 0 0 0.5rem;
+        line-height: 1.4;
+    }
+
+    .video-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.875rem;
+        color: #64748b;
+    }
+
+    .video-partner {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .partner-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #6be8b6;
+        flex-shrink: 0;
+    }
+
+    .video-duration::before {
+        content: "•";
+        margin-right: 0.5rem;
+        color: #334155;
+    }
+
+    /* Video Overlay Styles */
+    .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 12px;
+    }
+
+    .video-container:hover .video-overlay {
+        opacity: 1;
+    }
+
+    .play-button {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .video-overlay:hover .play-button {
+        transform: scale(1.1);
+        background: white;
+    }
+
+    .play-icon {
+        width: 0;
+        height: 0;
+        border-left: 16px solid #463273;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        margin-left: 3px;
+    }
+
+    /* Modal Styles */
+    .video-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .video-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        position: relative;
+        width: 90%;
+        max-width: 900px;
+        aspect-ratio: 16/9;
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+    }
+
+    .video-modal.active .modal-content {
+        transform: scale(1);
+    }
+
+    .modal-close {
+        position: absolute;
+        top: -50px;
+        right: 0;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .modal-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+
+    .video-container-modal {
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--surface);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .video-container-modal iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .videos-section {
+            padding: 4rem 0;
+        }
+
+        .container {
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .videos-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .modal-content {
+            width: 95%;
+        }
+
+        .modal-close {
+            top: -40px;
+            right: -10px;
+            width: 35px;
+            height: 35px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .section-title {
+            font-size: 1.75rem;
+        }
+
+        .video-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+
+        .video-duration::before {
+            content: "";
+            margin-right: 0;
+        }
+
+        .modal-content {
+            width: 98%;
+        }
+
+        .modal-close {
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            width: 32px;
+            height: 32px;
+        }
+    }
+</style>
