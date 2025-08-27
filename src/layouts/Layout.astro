@@ -1,0 +1,612 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Hazlo - La mejor herramienta para tu productividad" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Subtle Gradient Background -->
+    <div class="gradient-background"></div>
+    
+    <slot />
+    
+    <script>
+      // Función para aplicar el tema
+      function applyTheme(theme: string) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        // Actualizar icono del toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        if (themeToggle) {
+          themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+      }
+
+      // Función para alternar el tema
+      function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+      }
+
+      // Inicializar tema
+      function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme) {
+          applyTheme(savedTheme);
+        } else if (prefersDark) {
+          applyTheme('dark');
+        } else {
+          applyTheme('light');
+        }
+      }
+
+      // Ejecutar al cargar la página
+      document.addEventListener('DOMContentLoaded', initTheme);
+
+      // Hacer toggleTheme global para usarla en componentes
+      (window as any).toggleTheme = toggleTheme;
+
+      // Escuchar cambios en las preferencias del sistema
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Variables CSS Globales */
+  :root {
+    /* Colores principales de marca */
+    --primary-purple: #463273;
+    --primary-blue: #6BE8B6;
+    
+    /* Modo Light (por defecto) */
+    --background: #ffffff;
+    --background-secondary: #f8fafc;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --border: #e2e8f0;
+    --border-light: #f1f5f9;
+    
+    /* Tipografía */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-h1: 800 3.5rem/1.1 var(--font-family);
+    --font-h2: 700 2.5rem/1.2 var(--font-family);
+    --font-h3: 600 1.8rem/1.3 var(--font-family);
+    --font-body: 400 1rem/1.6 var(--font-family);
+    --font-body-lg: 400 1.125rem/1.6 var(--font-family);
+    --font-small: 400 0.875rem/1.5 var(--font-family);
+    
+    /* Espaciado */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+    
+    /* Bordes y sombras */
+    --radius: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    
+    /* Transiciones */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Modo Dark */
+  [data-theme="dark"] {
+    --background: #0f172a;
+    --background-secondary: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --surface: #1e293b;
+    --surface-hover: #334155;
+    --border: #334155;
+    --border-light: #475569;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  }
+
+  /* Reset y estilos base */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font: var(--font-body);
+    color: var(--text-primary);
+    background-color: var(--background);
+    transition: var(--transition);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Subtle Gradient Background */
+  .gradient-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at top center, 
+      rgba(70, 50, 115, 0.08) 0%, 
+      rgba(107, 232, 182, 0.04) 35%, 
+      transparent 70%);
+  }
+
+  /* Modo dark - gradiente más visible */
+  [data-theme="dark"] .gradient-background {
+    background: radial-gradient(ellipse at top center, 
+      rgba(70, 50, 115, 0.15) 0%, 
+      rgba(107, 232, 182, 0.08) 35%, 
+      transparent 70%);
+  }
+
+  /* Modo light - gradiente más sutil */
+  [data-theme="light"] .gradient-background {
+    background: radial-gradient(ellipse at top center, 
+      rgba(70, 50, 115, 0.04) 0%, 
+      rgba(107, 232, 182, 0.02) 35%, 
+      transparent 70%);
+  }
+
+  /* Tipografía global */
+  h1 {
+    font: var(--font-h1);
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    font: var(--font-h2);
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+  }
+
+  h3 {
+    font: var(--font-h3);
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+  }
+
+  p {
+    font: var(--font-body);
+    color: var(--text-secondary);
+  }
+
+  .text-lg {
+    font: var(--font-body-lg);
+  }
+
+  .text-sm {
+    font: var(--font-small);
+  }
+
+  /* Utilidades de color */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .text-purple {
+    color: var(--primary-purple);
+  }
+
+  .text-blue {
+    color: var(--primary-blue);
+  }
+
+  /* Botones base */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-lg);
+    font-weight: 600;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+    color: white;
+    box-shadow: var(--shadow);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--surface-hover);
+  }
+
+  /* Toggle Theme Button */
+  .theme-toggle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .theme-toggle:hover {
+    background: var(--surface-hover);
+    transform: scale(1.05);
+  }
+
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+  }
+
+  @media (max-width: 768px) {
+    :root {
+      --font-h1: 700 2.5rem/1.1 var(--font-family);
+      --font-h2: 600 1.875rem/1.2 var(--font-family);
+    }
+    
+    .container {
+      padding: 0 var(--space-sm);
+    }
+  }
+</style>
+
+
+<script>
+
+
+// Textos dinámicos
+const dynamicTexts = [
+  "¿Estás emprendiendo?",
+  "¿No sabes por dónde empezar?",
+  "¿Quieres validar tu idea?",
+  "¿Buscas Co-fundador?"
+];
+
+let currentTextIndex = 0;
+
+function changeHeroText() {
+  const textElement = document.getElementById('dynamicText');
+  if (textElement) {
+    // Fade out
+    textElement.style.opacity = '0';
+    
+    setTimeout(() => {
+      // Cambiar texto
+      currentTextIndex = (currentTextIndex + 1) % dynamicTexts.length;
+      textElement.textContent = dynamicTexts[currentTextIndex];
+      
+      // Fade in
+      textElement.style.opacity = '1';
+    }, 300);
+  }
+}
+
+// Iniciar cambio de texto cada 3 segundos
+setInterval(changeHeroText, 3000);
+
+
+
+// Chat Animation
+      const chatMessages = [
+        {
+          type: 'user',
+          text: 'Tengo una idea de negocio pero no sé cómo empezar',
+          avatar: 'U'
+        },
+        {
+          type: 'hazlo',
+          text: '¡Perfecto! Te ayudo a estructurar tu idea paso a paso',
+          avatar: 'H'
+        },
+        {
+          type: 'user', 
+          text: '¿Me puedes ayudar con el plan de negocio?',
+          avatar: 'U'
+        },
+        {
+          type: 'hazlo',
+          text: 'Claro, vamos a crear juntos tu roadmap personalizado',
+          avatar: 'H'
+        }
+      ];
+
+      let currentMessageIndex = 0;
+      let chatAnimationTimeout;
+
+ 
+function createMessage(message, index) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${message.type}`;
+        messageDiv.style.animationDelay = '0.2s';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.textContent = message.avatar;
+        
+        // Agregar estilos inline para los avatares
+        if (message.type === 'user') {
+          avatar.style.background = '#3B82F6';
+        } else {
+          avatar.style.background = 'linear-gradient(135deg, #463273 0%, #6BE8B6 100%)';
+        }
+        avatar.style.color = 'white';
+        avatar.style.width = '24px';
+        avatar.style.height = '24px';
+        avatar.style.borderRadius = '50%';
+        avatar.style.display = 'flex';
+        avatar.style.alignItems = 'center';
+        avatar.style.justifyContent = 'center';
+        avatar.style.fontWeight = '600';
+        avatar.style.fontSize = '0.7rem';
+        avatar.style.flexShrink = '0';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'message-bubble';
+        bubble.textContent = message.text;
+        
+        // Agregar estilos inline para las burbujas
+        bubble.style.maxWidth = '70%';
+        bubble.style.padding = '8px 12px';
+        bubble.style.borderRadius = '18px';
+        bubble.style.fontSize = '0.9rem';
+        bubble.style.lineHeight = '1.4';
+        bubble.style.position = 'relative';
+        
+        if (message.type === 'user') {
+          bubble.style.background = '#3B82F6';
+          bubble.style.color = 'white';
+          bubble.style.borderBottomRightRadius = '4px';
+        } else {
+          bubble.style.background = 'rgba(255, 255, 255, 0.15)';
+          bubble.style.color = 'var(--text-primary)';
+          bubble.style.borderBottomLeftRadius = '4px';
+        }
+
+        const time = document.createElement('div');
+        time.className = 'message-time';
+        time.textContent = new Date().toLocaleTimeString('es-ES', { 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        });
+        
+        // Estilos inline para el tiempo
+        time.style.fontSize = '0.7rem';
+        time.style.color = message.type === 'user' ? 'rgba(255,255,255,0.7)' : 'var(--text-muted)';
+        time.style.marginTop = '4px';
+        time.style.textAlign = message.type === 'user' ? 'right' : 'left';
+
+        if (message.type === 'user') {
+          messageDiv.appendChild(bubble);
+          messageDiv.appendChild(avatar);
+          messageDiv.style.flexDirection = 'row-reverse';
+          messageDiv.style.alignSelf = 'flex-end';
+        } else {
+          messageDiv.appendChild(avatar);
+          messageDiv.appendChild(bubble);
+          messageDiv.style.flexDirection = 'row';
+          messageDiv.style.alignSelf = 'flex-start';
+        }
+
+        // Estilos del contenedor del mensaje
+        messageDiv.style.display = 'flex';
+        messageDiv.style.alignItems = 'flex-end';
+        messageDiv.style.gap = '8px';
+        messageDiv.style.opacity = '0';
+        messageDiv.style.transform = 'translateY(20px)';
+        messageDiv.style.animation = 'messageAppear 0.5s ease-out forwards';
+
+        bubble.appendChild(time);
+        return messageDiv;
+      }
+
+
+
+
+
+
+      function showTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+          typingIndicator.classList.add('show');
+        }
+      }
+
+      function hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+          typingIndicator.classList.remove('show');
+        }
+      }
+
+      function addMessage(index) {
+        const chatMessages_container = document.getElementById('chatMessages');
+        if (!chatMessages_container || index >= chatMessages.length) return;
+
+        const message = chatMessages[index];
+        
+        if (message.type === 'hazlo') {
+          showTypingIndicator();
+          
+          setTimeout(() => {
+            hideTypingIndicator();
+            const messageElement = createMessage(message, index);
+            chatMessages_container.appendChild(messageElement);
+            chatMessages_container.scrollTop = chatMessages_container.scrollHeight;
+            scheduleNextMessage(index + 1);
+          }, 1500);
+        } else {
+          const messageElement = createMessage(message, index);
+          chatMessages_container.appendChild(messageElement);
+          chatMessages_container.scrollTop = chatMessages_container.scrollHeight;
+          scheduleNextMessage(index + 1);
+        }
+      }
+
+      function scheduleNextMessage(index) {
+        if (index >= chatMessages.length) {
+          chatAnimationTimeout = setTimeout(startChatAnimation, 3000);
+          return;
+        }
+        
+        chatAnimationTimeout = setTimeout(() => addMessage(index), 2000);
+      }
+
+      function startChatAnimation() {
+        const chatMessages_container = document.getElementById('chatMessages');
+        if (!chatMessages_container) return;
+        
+        chatMessages_container.innerHTML = '';
+        hideTypingIndicator();
+        
+        currentMessageIndex = 0;
+        addMessage(0);
+      }
+
+      // Iniciar animación del chat cuando la página carga
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(startChatAnimation, 2000);
+      });
+
+
+	  
+// FUNCIONES DE VIDEO - AMBOS TIPOS DE MODAL
+
+      // Modal del Hero (botón "Ver Demo") - ID fijo
+      function openVideoModal() {
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('demoVideo');
+        
+        if (modal && iframe) {
+          iframe.src = 'https://www.youtube.com/embed/iPezuDePMuc?autoplay=1&rel=0';
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      // Modal de Videos Section (dinámico) - ID variable
+      function openVideosModal(videoId: string) {
+        const modal = document.getElementById('videosModal');
+        const iframe = document.getElementById('videosModalVideo');
+        
+        if (modal && iframe) {
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      // Cerrar modal del Hero
+      function closeVideoModal() {
+        const modal = document.getElementById('videoModal');
+        const iframe = document.getElementById('demoVideo');
+        
+        if (modal && iframe) {
+          modal.classList.remove('active');
+          iframe.src = '';
+          document.body.style.overflow = 'auto';
+        }
+      }
+
+      // Cerrar modal de Videos
+      function closeVideosModal() {
+        const modal = document.getElementById('videosModal');
+        const iframe = document.getElementById('videosModalVideo');
+        
+        if (modal && iframe) {
+          modal.classList.remove('active');
+          iframe.src = '';
+          document.body.style.overflow = 'auto';
+        }
+      }
+
+      // Hacer funciones globales
+      (window as any).openVideoModal = openVideoModal;
+      (window as any).closeVideoModal = closeVideoModal;
+      (window as any).openVideosModal = openVideosModal;
+      (window as any).closeVideosModal = closeVideosModal;
+
+      // Cerrar modales con Escape
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+          closeVideoModal();
+          closeVideosModal();
+        }
+      });
+
+	  
+
+
+</script>
