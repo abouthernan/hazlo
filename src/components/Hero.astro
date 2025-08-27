@@ -14,25 +14,26 @@
      
 
       <!-- Título principal -->
-      <h1 class="hero-title">
-        ¿Estás emprendiendo? 
-        <span class="title-gradient">Hagámoslo Juntos.</span>
-      </h1>
+        <h1 class="hero-title">
+            <span id="dynamicText">¿Estás emprendiendo?</span>
+            <span class="title-gradient">hagámoslo juntos.</span>
+        </h1>
 
       <!-- Subtítulo -->
       <p class="hero-subtitle">
-        Hazlo es el copiloto que ayuda a los emprendedores de LATAM a pasar de la idea a la realidad.
+        Hazlo es el copiloto que ayuda a los emprendedores de LATAM a pasar de la idea a la acción.
       </p>
 
       <!-- CTAs -->
       <div class="hero-actions">
-        <a href="#signup" class="btn btn-primary hero-cta-primary">
+        <a href="https://api.whatsapp.com/send/?phone=573013063535&text=Hola%2C+quiero+emprender+con+Hazlo&type=phone_number&app_absent=0" class="btn btn-primary hero-cta-primary">
           <span>Iniciar gratis</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </a>
-        <a href="#demo" class="btn btn-secondary hero-cta-secondary">
+        </a>
+        <a href="#video-modal" class="btn btn-secondary hero-cta-secondary" onclick="openVideoModal()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
@@ -45,23 +46,65 @@
       <!-- Social proof / Stats -->
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-number">50K+</span>
-          <span class="stat-label">Usuarios activos</span>
+          <span class="stat-number">+2.5K</span>
+          <span class="stat-label">Emprendedores activos</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number">4.9/5</span>
-          <span class="stat-label">Rating promedio</span>
+          <span class="stat-number">+200</span>
+          <span class="stat-label">Proyectos Publicados</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number">99.9%</span>
-          <span class="stat-label">Uptime</span>
+          <span class="stat-number">95%</span>
+          <span class="stat-label">Ideas Validadas</span>
         </div>
       </div>
     </div>
 
-    <!-- Visual element / Illustration placeholder -->
+
+<!-- Chat Animation -->
+    <div class="hero-visual">
+      <div class="chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-avatar">
+            <div class="avatar-gradient">H</div>
+          </div>
+          <div class="chat-info">
+            <span class="chat-name">Hazlo</span>
+            <span class="chat-status">En línea</span>
+          </div>
+          <div class="chat-actions">
+            <div class="status-dot"></div>
+          </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+          <!-- Los mensajes se agregarán dinámicamente -->
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typingIndicator">
+          <div class="typing-avatar">
+            <div class="avatar-gradient">H</div>
+          </div>
+          <div class="typing-bubble">
+            <div class="typing-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+
+    <!-- Visual element / Illustration placeholder
     <div class="hero-visual">
       <div class="visual-card card-1">
         <div class="card-header">
@@ -105,10 +148,39 @@
         </div>
       </div>
     </div>
+    -->
+
+
   </div>
 </section>
 
+<!-- Video Modal -->
+<div id="videoModal" class="video-modal">
+  <div class="modal-backdrop" onclick="closeVideoModal()"></div>
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeVideoModal()" aria-label="Cerrar video">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="video-container">
+      <iframe id="demoVideo" 
+        src="" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</div>
+
 <style>
+
+  #dynamicText {
+    transition: opacity 0.3s ease;
+ }
+
   .hero {
     min-height: 100vh;
     display: flex;
@@ -242,6 +314,9 @@
   }
 
   /* Visual Elements */
+  
+
+  /* Chat Animation Styles */
   .hero-visual {
     position: relative;
     height: 500px;
@@ -249,6 +324,236 @@
     align-items: center;
     justify-content: center;
   }
+
+  .chat-container {
+    width: 350px;
+    height: 450px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    animation: chatFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes chatFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Chat Header */
+  .chat-header {
+    display: flex;
+    align-items: center;
+    padding: var(--space-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .chat-avatar {
+    margin-right: var(--space-sm);
+  }
+
+  .avatar-gradient {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .chat-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+
+  .chat-status {
+    font-size: 0.8rem;
+    color: #10B981;
+    margin-top: 2px;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: #10B981;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Chat Messages */
+  .chat-messages {
+    flex: 1;
+    padding: var(--space-md);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .chat-messages::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
+
+  .message {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-xs);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: messageAppear 0.5s ease-out forwards;
+  }
+
+  @keyframes messageAppear {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .message.user {
+    flex-direction: row-reverse;
+    align-self: flex-end;
+  }
+
+  .message.hazlo {
+    flex-direction: row;
+    align-self: flex-start;
+  }
+
+  .message-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .user .message-avatar {
+    background: #3B82F6;
+  }
+
+  .message-bubble {
+    max-width: 70%;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 18px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    position: relative;
+  }
+
+  .message.user .message-bubble {
+    background: #3B82F6;
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+
+  .message.hazlo .message-bubble {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    border-bottom-left-radius: 4px;
+  }
+
+  .message-time {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  .message.hazlo .message-time {
+    text-align: left;
+  }
+
+  /* Typing Indicator */
+  .typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 0 var(--space-md) var(--space-md);
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .typing-indicator.show {
+    opacity: 1;
+    transform: translateY(0);
+    animation: messageAppear 0.3s ease-out;
+  }
+
+  .typing-indicator .avatar-gradient {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+
+  .typing-bubble {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: var(--space-sm) var(--space-md);
+    border-bottom-left-radius: 4px;
+  }
+
+  .typing-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .typing-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: typingDot 1.4s infinite;
+  }
+
+  .typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes typingDot {
+    0%, 60%, 100% { opacity: 0.3; }
+    30% { opacity: 1; }
+  }
+
+
+
+
 
   .visual-card {
     position: absolute;
@@ -409,6 +714,17 @@
       bottom: 20px;
       right: 20px;
     }
+
+    .chat-container {
+      width: 320px;
+      height: 400px;
+    }
+
+
+
+
+
+
   }
 
   @media (max-width: 768px) {
@@ -452,23 +768,102 @@
     }
 
     .hero-visual {
-      height: 300px;
+      height: 350px;
     }
 
-    .visual-card {
-      position: relative;
-      margin: var(--space-sm);
+    .chat-container {
+      width: 300px;
+      height: 350px;
     }
 
-    .card-1,
-    .card-2 {
-      position: relative;
-      top: auto;
-      bottom: auto;
-      left: auto;
-      right: auto;
+    .hero-badge {
+      align-self: center;
     }
   }
+
+  /* Video Modal Styles */
+  .video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .video-modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    aspect-ratio: 16/9;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+  }
+
+  .video-modal.active .modal-content {
+    transform: scale(1);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+  }
+
+  .modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
 
   @media (max-width: 480px) {
     .hero-title {
@@ -478,12 +873,49 @@
     .hero-badge {
       padding: var(--space-xs) var(--space-sm);
       font-size: 0.75rem;
-      align-self: center;
+    }
+
+     .chat-container {
+      width: 280px;
+      height: 320px;
+    }
+
+    .message-bubble {
+      max-width: 85%;
+      font-size: 0.85rem;
+    }
+
+    .chat-header .chat-name{
+     text-align: left;
+    }
+
+    .chat-status {
+      text-align: left;
+    }
+
+    .message-bubble {
+     text-align: left;
+    }
+
+    .chat-messages {
+      text-align: left;
     }
 
     .visual-card {
       width: 100% !important;
       max-width: 280px;
+    }
+    .modal-content {
+      width: 98%;
+      aspect-ratio: 16/10;
+    }
+
+    .modal-close {
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      width: 32px;
+      height: 32px;
     }
   }
 </style>

@@ -7,7 +7,10 @@
     <!-- Logo / Brand -->
     <div class="navbar-brand">
       <a href="/" class="brand-link">
-        <span class="brand-text">Hazlo</span>
+        <div class="logo-container">
+            <img src="/logo/logo-horizontal.png" alt="Hazlo Logo" class="logo-container" />
+        </div>
+
       </a>
     </div>
 
@@ -23,7 +26,8 @@
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
         <span class="theme-icon">🌙</span>
       </button>
-      <a href="#signup" class="btn btn-primary">Iniciar gratis</a>
+      <a href="https://api.whatsapp.com/send/?phone=573013063535&text=Hola%2C+quiero+emprender+con+Hazlo&type=phone_number&app_absent=0" class="btn btn-primary hero-cta-primary">Comunidad</a>
+      
       
       <!-- Mobile Menu Toggle -->
       <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
@@ -89,6 +93,14 @@
     backdrop-filter: blur(12px);
     border-bottom: 0px solid var(--border-light);
     transition: var(--transition);
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 3rem;
+    width: auto;
   }
 
   /* Aseguramos que el selector de dark mode tenga mayor especificidad */

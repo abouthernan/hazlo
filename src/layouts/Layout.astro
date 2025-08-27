@@ -13,7 +13,7 @@ const { title, description = "Hazlo - La mejor herramienta para tu productividad
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -322,3 +322,258 @@ const { title, description = "Hazlo - La mejor herramienta para tu productividad
     }
   }
 </style>
+
+
+<script>
+
+// Funciones del modal de video
+function openVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('demoVideo');
+  
+  if (modal && iframe) {
+    iframe.src = 'https://www.youtube.com/embed/iPezuDePMuc?autoplay=1&rel=0';
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('demoVideo');
+  
+  if (modal && iframe) {
+    modal.classList.remove('active');
+    iframe.src = '';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Hacer funciones globales
+window.openVideoModal = openVideoModal;
+window.closeVideoModal = closeVideoModal;
+
+// Cerrar modal con Escape
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeVideoModal();
+  }
+});
+
+// Textos dinámicos
+const dynamicTexts = [
+  "¿Estás emprendiendo?",
+  "¿No sabes por dónde empezar?",
+  "¿Quieres validar tu idea?",
+  "¿Buscas Co-fundador?"
+];
+
+let currentTextIndex = 0;
+
+function changeHeroText() {
+  const textElement = document.getElementById('dynamicText');
+  if (textElement) {
+    // Fade out
+    textElement.style.opacity = '0';
+    
+    setTimeout(() => {
+      // Cambiar texto
+      currentTextIndex = (currentTextIndex + 1) % dynamicTexts.length;
+      textElement.textContent = dynamicTexts[currentTextIndex];
+      
+      // Fade in
+      textElement.style.opacity = '1';
+    }, 300);
+  }
+}
+
+// Iniciar cambio de texto cada 3 segundos
+setInterval(changeHeroText, 3000);
+
+
+
+// Chat Animation
+      const chatMessages = [
+        {
+          type: 'user',
+          text: 'Tengo una idea de negocio pero no sé cómo empezar',
+          avatar: 'U'
+        },
+        {
+          type: 'hazlo',
+          text: '¡Perfecto! Te ayudo a estructurar tu idea paso a paso',
+          avatar: 'H'
+        },
+        {
+          type: 'user', 
+          text: '¿Me puedes ayudar con el plan de negocio?',
+          avatar: 'U'
+        },
+        {
+          type: 'hazlo',
+          text: 'Claro, vamos a crear juntos tu roadmap personalizado',
+          avatar: 'H'
+        }
+      ];
+
+      let currentMessageIndex = 0;
+      let chatAnimationTimeout;
+
+ 
+function createMessage(message, index) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${message.type}`;
+        messageDiv.style.animationDelay = '0.2s';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.textContent = message.avatar;
+        
+        // Agregar estilos inline para los avatares
+        if (message.type === 'user') {
+          avatar.style.background = '#3B82F6';
+        } else {
+          avatar.style.background = 'linear-gradient(135deg, #463273 0%, #6BE8B6 100%)';
+        }
+        avatar.style.color = 'white';
+        avatar.style.width = '24px';
+        avatar.style.height = '24px';
+        avatar.style.borderRadius = '50%';
+        avatar.style.display = 'flex';
+        avatar.style.alignItems = 'center';
+        avatar.style.justifyContent = 'center';
+        avatar.style.fontWeight = '600';
+        avatar.style.fontSize = '0.7rem';
+        avatar.style.flexShrink = '0';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'message-bubble';
+        bubble.textContent = message.text;
+        
+        // Agregar estilos inline para las burbujas
+        bubble.style.maxWidth = '70%';
+        bubble.style.padding = '8px 12px';
+        bubble.style.borderRadius = '18px';
+        bubble.style.fontSize = '0.9rem';
+        bubble.style.lineHeight = '1.4';
+        bubble.style.position = 'relative';
+        
+        if (message.type === 'user') {
+          bubble.style.background = '#3B82F6';
+          bubble.style.color = 'white';
+          bubble.style.borderBottomRightRadius = '4px';
+        } else {
+          bubble.style.background = 'rgba(255, 255, 255, 0.15)';
+          bubble.style.color = 'var(--text-primary)';
+          bubble.style.borderBottomLeftRadius = '4px';
+        }
+
+        const time = document.createElement('div');
+        time.className = 'message-time';
+        time.textContent = new Date().toLocaleTimeString('es-ES', { 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        });
+        
+        // Estilos inline para el tiempo
+        time.style.fontSize = '0.7rem';
+        time.style.color = message.type === 'user' ? 'rgba(255,255,255,0.7)' : 'var(--text-muted)';
+        time.style.marginTop = '4px';
+        time.style.textAlign = message.type === 'user' ? 'right' : 'left';
+
+        if (message.type === 'user') {
+          messageDiv.appendChild(bubble);
+          messageDiv.appendChild(avatar);
+          messageDiv.style.flexDirection = 'row-reverse';
+          messageDiv.style.alignSelf = 'flex-end';
+        } else {
+          messageDiv.appendChild(avatar);
+          messageDiv.appendChild(bubble);
+          messageDiv.style.flexDirection = 'row';
+          messageDiv.style.alignSelf = 'flex-start';
+        }
+
+        // Estilos del contenedor del mensaje
+        messageDiv.style.display = 'flex';
+        messageDiv.style.alignItems = 'flex-end';
+        messageDiv.style.gap = '8px';
+        messageDiv.style.opacity = '0';
+        messageDiv.style.transform = 'translateY(20px)';
+        messageDiv.style.animation = 'messageAppear 0.5s ease-out forwards';
+
+        bubble.appendChild(time);
+        return messageDiv;
+      }
+
+
+
+
+
+
+      function showTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+          typingIndicator.classList.add('show');
+        }
+      }
+
+      function hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+          typingIndicator.classList.remove('show');
+        }
+      }
+
+      function addMessage(index) {
+        const chatMessages_container = document.getElementById('chatMessages');
+        if (!chatMessages_container || index >= chatMessages.length) return;
+
+        const message = chatMessages[index];
+        
+        if (message.type === 'hazlo') {
+          showTypingIndicator();
+          
+          setTimeout(() => {
+            hideTypingIndicator();
+            const messageElement = createMessage(message, index);
+            chatMessages_container.appendChild(messageElement);
+            chatMessages_container.scrollTop = chatMessages_container.scrollHeight;
+            scheduleNextMessage(index + 1);
+          }, 1500);
+        } else {
+          const messageElement = createMessage(message, index);
+          chatMessages_container.appendChild(messageElement);
+          chatMessages_container.scrollTop = chatMessages_container.scrollHeight;
+          scheduleNextMessage(index + 1);
+        }
+      }
+
+      function scheduleNextMessage(index) {
+        if (index >= chatMessages.length) {
+          chatAnimationTimeout = setTimeout(startChatAnimation, 3000);
+          return;
+        }
+        
+        chatAnimationTimeout = setTimeout(() => addMessage(index), 2000);
+      }
+
+      function startChatAnimation() {
+        const chatMessages_container = document.getElementById('chatMessages');
+        if (!chatMessages_container) return;
+        
+        chatMessages_container.innerHTML = '';
+        hideTypingIndicator();
+        
+        currentMessageIndex = 0;
+        addMessage(0);
+      }
+
+      // Iniciar animación del chat cuando la página carga
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(startChatAnimation, 2000);
+      });
+
+
+</script>
+
+
