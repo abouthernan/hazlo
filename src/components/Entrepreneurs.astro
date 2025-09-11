@@ -1,8 +1,16 @@
  <section class="entrepreneurs-section">
-        <div class="section-header">
-             <p class="section-subtitle">Nuestra comunidad está creciendo</p>
-            <h2 class="section-title">Ya somos +2.5K emprendedores</h2>
-            
+
+      <div class="section-header">
+            <div class="section-badge">
+                <span class="badge-icon">💚</span>
+                <span class="badge-text">Nuestra Comunidad Está Creciendo</span>
+            </div>
+            <h2 class="section-title">
+                Ya somos más de <span class="title-gradient">2.5K emprendedores</span>
+            </h2>
+            <p class="section-subtitle">
+               Únete y juntos aceleremos la transformación de América Latina.
+            </p>
         </div>
 
         <div class="carousel-container">
@@ -289,7 +297,7 @@
 
         <div class="section-header">
 
-        <p class="section-subtitle"><br />Únete y juntos aceleremos la transformación de América Latina. <br />Encuentra y Conecta con las personas que harán crecer tu startup. 
+        <p class="section-subtitle"><br />Encuentra y Conecta con las personas que harán crecer tu startup. 
         </p>
         </div>
     </section>
@@ -303,6 +311,28 @@
             overflow-x: hidden;
         }
 
+          .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        font-size: 0.875rem;
+        color: #cbd5e1;
+        backdrop-filter: blur(10px);
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+        .title-gradient {
+        background: linear-gradient(135deg, #463273 0%, #6be8b6 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
         .entrepreneurs-section {
             padding: 10rem 10rem;
             background: radial-gradient(ellipse at top center, 
@@ -312,17 +342,16 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 3rem;
+        margin-bottom: 4rem;
         }
 
         .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin: 0 0 1rem;
-            background: linear-gradient(135deg, #463273 0%, #6BE8B6 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+             font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0 0 1rem;
+        line-height: 1.2;
+        letter-spacing: -0.025em;
+        color: #f8fafc;
         }
 
         .section-subtitle {
