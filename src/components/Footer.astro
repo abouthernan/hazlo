@@ -1,36 +1,155 @@
 <footer class="footer">
   <div class="footer-container">
-    <p class="footer-copy">
-      <span class="copyright-icon">©</span> 2022–2027 Hazlo. Todos los derechos reservados.
-    </p>
+
+    <!-- Logo + tagline -->
+    <div class="footer-brand">
+      <img src="/logo/logo-mobile.png" alt="Hazlo" class="footer-logo" />
+      <p class="footer-tagline">Hazlo LATAM, hazlo ahora.</p>
+    </div>
+
+    <!-- Columnas de links -->
+    <div class="footer-links">
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Explora</h4>
+
+        <ul>
+          <li><a href="#">Comunidad</a></li>
+          <li><a href="#">Empresas</a></li>
+          <li><a href="#">Aprende</a></li>
+          <li><a href="#">Recursos</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Formación</h4>
+        <ul>
+          <li><a href="#">Clases</a></li>
+          <li><a href="#">Programas</a></li>
+          <li><a href="#">Vibecoding</a></li>
+          <li><a href="#">IA Aplicada</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Privacidad</h4>
+        <ul>
+          <li><a href="#">Política de Privacidad</a></li>
+          <li><a href="#">Datos Personales</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-col-title">Términos de Uso</h4>
+        <ul>
+          <li><a href="#">Términos y Condiciones</a></li>
+          <li><a href="#">Aviso Legal</a></li>
+          <li><a href="#">Código de Conducta</a></li>
+        </ul>
+      </div>
+
+    </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    padding: var(--space-lg) 0;
-    border-top: 1px solid var(--border-light);
+    background: var(--background);
+    padding: 4rem 0 3rem;
+    border-top: none;
   }
 
   .footer-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--space-md);
+    padding: 0 2rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    gap: 4rem;
+    align-items: flex-start;
   }
 
-  .footer-copy {
+  /* Brand */
+  .footer-brand {
+    flex: 0 0 220px;
     display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: var(--font-small);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .footer-tagline {
+    font-family: var(--font-body, inherit);
+    font-size: 0.75rem;
     color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0;
   }
 
-  .copyright-icon {
-    font-size: 1rem;
-    color: var(--text-secondary);
+  /* Columns */
+  .footer-links {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .footer-col h4.footer-col-title {
+    font-family: var(--font-body, inherit);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: normal;
+    text-transform: none;
+    margin: 0 0 1rem 0;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-col ul li a {
+    font-family: var(--font-body, inherit);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-col ul li a:hover {
+    color: var(--text-primary);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .footer-brand {
+      flex: none;
+    }
+
+    .footer-links {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-links {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 </style>

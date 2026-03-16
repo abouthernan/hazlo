@@ -4,49 +4,40 @@
 
 <nav class="navbar">
   <div class="navbar-container">
-    
-    <!-- Logo / Brand -->
-    <div class="navbar-brand">
-    <a href="/" class="brand-link">
-        <img src="/logo/logo-desktop.png" alt="Hazlo Logo" class="logo-container desktop-logo" />
-       <img src="/logo/logo-mobile.png" alt="Hazlo Logo" class="logo-container mobile-logo" />
-    </a>
-    </div>
 
-
-    
-
-    <!-- Navigation Links (Desktop) -->
-    <div class="navbar-nav">
+    <!-- Nav izquierda (desktop) -->
+    <div class="navbar-nav navbar-nav-left">
       <a href="#empresas" class="nav-link">Empresas</a>
       <a href="#aprende" class="nav-link">Aprende</a>
       <a href="#recursos" class="nav-link">Recursos</a>
-      <a href="#clases" class="nav-link">Clases</a>
-      <a href="#programas" class="nav-link">Programas</a>
     </div>
 
-    <!-- Actions -->
-    <div class="navbar-actions">
-      <!-- <button class="theme-toggle mobile-mode" onclick="toggleTheme()" aria-label="Cambiar tema">
-        <span class="theme-icon">🌙</span>
-      </button>-->
-      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" class="btn btn-primary hero-cta-primary mobile-cat">Comunidad</a>
-      
-      
+    <!-- Logo centrado -->
+    <div class="navbar-brand">
+      <a href="/" class="brand-link">
+        <img src="/logo/logo-mobile.png" alt="Hazlo Logo" class="logo-container" />
+      </a>
+    </div>
+
+    <!-- Nav derecha (desktop) + acciones -->
+    <div class="navbar-nav navbar-nav-right">
+      <a href="#clases" class="nav-link">Clases</a>
+      <a href="#programas" class="nav-link">Programas</a>
+      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" class="nav-link">Comunidad</a>
+
       <!-- Mobile Menu Toggle -->
       <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
-        <!-- Ícono menú (dos líneas asimétricas alineadas a la derecha) -->
         <svg class="icon-menu" width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line x1="0" y1="3" x2="28" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
           <line x1="10" y1="15" x2="28" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
-        <!-- Ícono X (cerrar) -->
         <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
           <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
+
   </div>
 
   <!-- Mobile Menu -->
@@ -107,21 +98,10 @@
   }
 
   .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    height: 3rem;
+    height: 2.75rem;
     width: auto;
+    display: block;
   }
-
-  /* Mostrar logo completo por defecto */
-.desktop-logo {
-  display: inline;
-}
-
-.mobile-logo {
-  display: none;
-}
 
 
 
@@ -135,33 +115,24 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-md);
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     height: 4rem;
   }
 
-  /* Brand */
+  /* Brand centrado */
   .navbar-brand {
     display: flex;
     align-items: center;
-    padding-top: 0.5rem;
+    justify-content: center;
+    padding: 0 2.5rem;
   }
 
   .brand-link {
     text-decoration: none;
-    color: var(--text-primary);
-    transition: var(--transition);
-  }
-
-  .brand-text {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
   }
 
   /* Navigation Links */
@@ -169,6 +140,14 @@
     display: flex;
     align-items: center;
     gap: var(--space-lg);
+  }
+
+  .navbar-nav-left {
+    justify-content: flex-end;
+  }
+
+  .navbar-nav-right {
+    justify-content: flex-start;
   }
 
   .nav-link {
@@ -198,12 +177,6 @@
     width: 100%;
   }
 
-  /* Actions */
-  .navbar-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-  }
 
   .theme-toggle {
     width: 2.5rem;
@@ -322,10 +295,27 @@
   @media (max-width: 768px) {
     .navbar-container {
       padding: 0 var(--space-sm);
+      grid-template-columns: 1fr auto;
     }
 
-    .navbar-nav {
+    /* Ocultar nav izquierda en mobile */
+    .navbar-nav-left {
       display: none;
+    }
+
+    /* Brand ocupa la columna izquierda, alineado a la izquierda */
+    .navbar-brand {
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    /* Nav derecha: ocultar links, mostrar solo toggle */
+    .navbar-nav-right .nav-link {
+      display: none;
+    }
+
+    .navbar-nav-right {
+      justify-content: flex-end;
     }
 
     .mobile-menu-toggle {
@@ -333,43 +323,6 @@
       align-items: center;
       justify-content: center;
     }
-
-    .navbar-actions {
-      gap: var(--space-xs);
-    }
-
-    .theme-toggle {
-      width: 2.25rem;
-      height: 2.25rem;
-      font-size: 1rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .brand-text {
-      font-size: 1.25rem;
-    }
-
-    .btn {
-      padding: var(--space-xs) var(--space-sm);
-      font-size: 0.8rem;
-    }
-
-    /* En mobile mostrar solo H */
-
-  .desktop-logo {
-    display: none;
-  }
-  
-  .mobile-logo {
-    display: inline;
-  }
-
-
-    .mobile-cat, .mobile-text-copilot, .mobile-mode {
-    display: none;
-    }
-
   }
 
   /* Scroll effect */
