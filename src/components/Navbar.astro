@@ -18,7 +18,6 @@
 
     <!-- Navigation Links (Desktop) -->
     <div class="navbar-nav">
-      <a href="#comunidad" class="nav-link">Comunidad</a>
       <a href="#empresas" class="nav-link">Empresas</a>
       <a href="#aprende" class="nav-link">Aprende</a>
       <a href="#recursos" class="nav-link">Recursos</a>
@@ -36,9 +35,16 @@
       
       <!-- Mobile Menu Toggle -->
       <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
-        <span class="hamburger"></span>
-        <span class="hamburger"></span>
-        
+        <!-- Ícono menú (dos líneas asimétricas alineadas a la derecha) -->
+        <svg class="icon-menu" width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="3" x2="28" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="10" y1="15" x2="28" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <!-- Ícono X (cerrar) -->
+        <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
       </button>
     </div>
   </div>
@@ -52,9 +58,6 @@
       <a href="#recursos" class="mobile-nav-link">Recursos</a>
       <a href="#clases" class="mobile-nav-link">Clases</a>
       <a href="#programas" class="mobile-nav-link">Programas</a>
-      <div class="mobile-actions">
-        <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" class="btn btn-primary mobile-cta">Unirme ahora</a>
-      </div>
     </div>
   </div>
 </nav>
@@ -225,35 +228,34 @@
   /* Mobile Menu Toggle */
   .mobile-menu-toggle {
     display: none;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
     background: none;
     border: none;
     cursor: pointer;
-    gap: 4px;
+    padding: 0;
   }
 
-  .hamburger {
-    width: 20px;
-    height: 2px;
-    background: var(--text-primary);
-    transition: var(--transition);
-    border-radius: 1px;
+  .icon-menu,
+  .icon-close {
+    color: var(--text-primary);
+    display: block;
+    transition: opacity 0.2s ease;
   }
 
-  .mobile-menu-toggle.active .hamburger:nth-child(1) {
-    transform: rotate(45deg) translate(6px, 6px);
+  .icon-close {
+    display: none;
   }
 
-  .mobile-menu-toggle.active .hamburger:nth-child(2) {
-    opacity: 0;
+  /* Estado activo → mostrar X, ocultar menú */
+  .mobile-menu-toggle.active .icon-menu {
+    display: none;
   }
 
-  .mobile-menu-toggle.active .hamburger:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
+  .mobile-menu-toggle.active .icon-close {
+    display: block;
   }
 
   /* Mobile Menu */
@@ -328,6 +330,8 @@
 
     .mobile-menu-toggle {
       display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .navbar-actions {
