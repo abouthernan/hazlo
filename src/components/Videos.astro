@@ -1,35 +1,78 @@
 ---
 const videos = [
+  // ── Más recientes primero ──
+  // 2026
   {
-    id: 'gqhQowYi8OU',
-    thumb: '/videos/back-video-1.png',
+    id: 'o2JeuXLr9EQ',
+    thumb: 'https://img.youtube.com/vi/o2JeuXLr9EQ/maxresdefault.jpg',
     badge: 'Charla',
-    title: 'Valida antes de Construir el MVP',
-    speaker: 'Damian Sanchez',
-    role: 'Cofounder Novolabs',
-    duration: '1h 45 min',
-    categories: ['Growth'],
+    title: 'Para qué están usando IA las empresas',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Automatización'],
   },
   {
-    id: 'CY4NGGlOugw',
-    thumb: '/videos/back-video-nahuel.png',
+    id: 'ZUrYIbfNOF0',
+    thumb: 'https://img.youtube.com/vi/ZUrYIbfNOF0/maxresdefault.jpg',
+    badge: 'Charla',
+    title: 'GEO: cómo aparecer en asistentes de IA (Gemini, GPT, Copilot, Claude, Perplexity)',
+    speaker: 'Jose',
+    role: 'CEO de Beyond Noise',
+    date: '2026',
+    categories: ['Claude'],
+  },
+  {
+    id: 'IC0DapJ6GLo',
+    thumb: 'https://img.youtube.com/vi/IC0DapJ6GLo/maxresdefault.jpg',
     badge: 'Webinar',
-    title: 'Levanta capital para tu Startup',
-    speaker: 'Nahuel Lema',
-    role: 'CEO de Coderhouse',
-    duration: '1h 35 min',
-    categories: ['Capital'],
+    title: 'Herramientas IA para potenciar tu negocio',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Automatización'],
   },
   {
-    id: 'E5rqHePG-60',
-    thumb: '/videos/back-video-salomon.png',
-    badge: 'Workshop',
-    title: 'Crea un producto que todos quieran',
-    speaker: 'Salom Zarruk',
-    role: 'CEO de Mono',
-    duration: '57 min',
-    categories: ['Growth'],
+    id: 'Hd4ig6nBapY',
+    thumb: 'https://img.youtube.com/vi/Hd4ig6nBapY/maxresdefault.jpg',
+    badge: 'Webinar',
+    title: 'Agentes IA: cómo crear un asistente comercial y de ventas en tu empresa',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Ventas', 'Automatización'],
   },
+  {
+    id: 'h7FzKbqsA94',
+    thumb: 'https://img.youtube.com/vi/h7FzKbqsA94/maxresdefault.jpg',
+    badge: 'Webinar',
+    title: 'Cómo prospectar y generar nuevos leads con IA',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Prospección', 'Ventas'],
+  },
+  {
+    id: 'wyFvh4Isl_g',
+    thumb: 'https://img.youtube.com/vi/wyFvh4Isl_g/maxresdefault.jpg',
+    badge: 'Charla',
+    title: 'OpenClaw: por qué está revolucionando el mundo de la IA',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Claude', 'Automatización'],
+  },
+  {
+    id: 'rdnN_xdObZ0',
+    thumb: 'https://img.youtube.com/vi/rdnN_xdObZ0/maxresdefault.jpg',
+    badge: 'Webinar',
+    title: 'Cómo construir un agente de IA que califique tus leads',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Automatización', 'Prospección'],
+  },
+  // 2025
   {
     id: 'C5ZKq9csLpQ',
     thumb: '/videos/back-video-michel.png',
@@ -37,8 +80,41 @@ const videos = [
     title: 'Team Building',
     speaker: 'Michel Haeuzeur',
     role: 'CEO la Corte de los Buhos',
-    duration: '57 min',
+    date: '2025',
     categories: ['Cowork'],
+  },
+  // 2024
+  {
+    id: 'E5rqHePG-60',
+    thumb: '/videos/back-video-salomon.png',
+    badge: 'Workshop',
+    title: 'Crea un producto que todos quieran',
+    speaker: 'Salom Zarruk',
+    role: 'CEO de Mono',
+    date: '2024',
+    categories: ['Growth'],
+  },
+  // 2023
+  {
+    id: 'gqhQowYi8OU',
+    thumb: '/videos/back-video-1.png',
+    badge: 'Charla',
+    title: 'Valida antes de Construir el MVP',
+    speaker: 'Damian Sanchez',
+    role: 'Cofounder Novolabs',
+    date: '2023',
+    categories: ['Growth'],
+  },
+  // 2022
+  {
+    id: 'CY4NGGlOugw',
+    thumb: '/videos/back-video-nahuel.png',
+    badge: 'Webinar',
+    title: 'Levanta capital para tu Startup',
+    speaker: 'Nahuel Lema',
+    role: 'CEO de Coderhouse',
+    date: '2022',
+    categories: ['Capital'],
   },
 ];
 
@@ -86,13 +162,13 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
         <div class="carousel-track" id="carouselTrack">
           {videos.map(v => (
             <div class="video-card" data-categories={v.categories.join(',')}>
-              <div class="video-type-badge">{v.badge}</div>
               <div
                 class="video-thumb"
                 data-video-id={v.id}
-                onclick={`openVideosModal('${v.id}')`}
               >
                 <img src={v.thumb} alt={v.title} loading="lazy" />
+                <!-- Categoría sobre la imagen -->
+                <span class="cat-overlay">{v.categories[0]}</span>
                 <div class="video-overlay">
                   <div class="play-button">
                     <div class="play-icon"></div>
@@ -101,12 +177,17 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
               </div>
               <div class="video-info">
                 <h3 class="video-title">{v.title}</h3>
-                <div class="video-meta">
-                  <div class="video-speaker">
-                    <span class="speaker-dot"></span>
-                    <span>{v.speaker}<br /><em>{v.role}</em></span>
+                <div class="video-author">
+                  <span class="speaker-dot"></span>
+                  <div class="author-details">
+                    <span class="author-name">{v.speaker}</span>
+                    <span class="author-role">{v.role}</span>
                   </div>
-                  <span class="video-duration">{v.duration}</span>
+                </div>
+                <div class="video-tags">
+                  <span class="tag-badge">{v.badge}</span>
+                  <span class="tag-sep">·</span>
+                  <span class="tag-date">{v.date}</span>
                 </div>
               </div>
             </div>
@@ -128,9 +209,9 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
 
   <!-- Modal -->
   <div id="videosModal" class="video-modal">
-    <div class="modal-backdrop" onclick="closeVideosModal()"></div>
+    <div class="modal-backdrop" id="modalBackdrop"></div>
     <div class="modal-content">
-      <button class="modal-close" onclick="closeVideosModal()">
+      <button class="modal-close" id="modalCloseBtn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
@@ -268,16 +349,82 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
     gap: 0.75rem;
   }
 
-  .video-type-badge {
-    display: inline-block;
-    padding: 0.2rem 0.65rem;
-    background: rgba(107, 232, 182, 0.1);
-    border: 1px solid rgba(107, 232, 182, 0.25);
+  /* Categoría encima de la imagen */
+  .cat-overlay {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    z-index: 2;
+    padding: 0.25rem 0.7rem;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
     border-radius: 999px;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    color: #6be8b6;
-    width: fit-content;
+    color: #fff;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+  }
+
+  /* Tipo sutil en el footer de la card */
+  .video-type-subtle {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ─── Card footer ─── */
+  .video-author {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .author-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .author-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  .author-role {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+
+  .video-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.1rem;
+  }
+
+  .tag-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.55rem;
+  }
+
+  .tag-sep {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .tag-date {
+    font-size: 0.72rem;
+    color: var(--text-muted);
   }
 
   .video-thumb {
@@ -344,7 +491,7 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
   .video-info {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
 
   .video-title {
@@ -355,39 +502,13 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
     line-height: 1.4;
   }
 
-  .video-meta {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  .video-speaker {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.4rem;
-    line-height: 1.4;
-  }
-
   .speaker-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: #6be8b6;
     flex-shrink: 0;
-    margin-top: 0.35rem;
-  }
-
-  .video-speaker em {
-    font-style: normal;
-    color: var(--text-muted);
-  }
-
-  .video-duration {
-    white-space: nowrap;
-    flex-shrink: 0;
+    margin-top: 0.4rem;
   }
 
   /* ─── Arrows ─── */
@@ -676,29 +797,38 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
   });
 
   // ─── Init ───
-  document.addEventListener('DOMContentLoaded', refresh);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', refresh);
+  } else {
+    refresh();
+  }
 
   // ─── Modal ───
-  function openVideosModal(videoId: string) {
-    const modal = document.getElementById('videosModal')!;
-    const iframe = document.getElementById('videosModalIframe') as HTMLIFrameElement;
-    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  const modal = document.getElementById('videosModal')!;
+  const modalIframe = document.getElementById('videosModalIframe') as HTMLIFrameElement;
+
+  function openModal(videoId: string) {
+    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeVideosModal() {
-    const modal = document.getElementById('videosModal')!;
-    const iframe = document.getElementById('videosModalIframe') as HTMLIFrameElement;
+  function closeModal() {
     modal.classList.remove('active');
-    iframe.src = '';
+    modalIframe.src = '';
     document.body.style.overflow = '';
   }
 
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape') closeVideosModal();
+  // Clicks en miniaturas de video (event delegation)
+  track.addEventListener('click', (e: MouseEvent) => {
+    const thumb = (e.target as HTMLElement).closest<HTMLElement>('.video-thumb');
+    if (thumb?.dataset.videoId) openModal(thumb.dataset.videoId);
   });
 
-  (window as any).openVideosModal = openVideosModal;
-  (window as any).closeVideosModal = closeVideosModal;
+  // Cerrar modal
+  document.getElementById('modalBackdrop')?.addEventListener('click', closeModal);
+  document.getElementById('modalCloseBtn')?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape') closeModal();
+  });
 </script>
