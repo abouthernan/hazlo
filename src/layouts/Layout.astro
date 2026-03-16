@@ -327,38 +327,6 @@ const { title, description = "Hazlo - El Copiloto de Los Emprendedores de LATAM"
 <script>
 
 
-// Textos dinámicos
-const dynamicTexts = [
-  "¿Estás emprendiendo?",
-  "¿No sabes por dónde empezar?",
-  "¿Quieres validar tu idea?",
-  "¿Buscas Co-fundador?"
-];
-
-let currentTextIndex = 0;
-
-function changeHeroText() {
-  const textElement = document.getElementById('dynamicText');
-  if (textElement) {
-    // Fade out
-    textElement.style.opacity = '0';
-    
-    setTimeout(() => {
-      // Cambiar texto
-      currentTextIndex = (currentTextIndex + 1) % dynamicTexts.length;
-      textElement.textContent = dynamicTexts[currentTextIndex];
-      
-      // Fade in
-      textElement.style.opacity = '1';
-    }, 300);
-  }
-}
-
-// Iniciar cambio de texto cada 3 segundos
-setInterval(changeHeroText, 3000);
-
-
-
 // Chat Animation
       const chatMessages = [
         {
