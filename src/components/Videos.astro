@@ -207,23 +207,6 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
 
   </div>
 
-  <!-- Modal -->
-  <div id="videosModal" class="video-modal">
-    <div class="modal-backdrop" id="modalBackdrop"></div>
-    <div class="modal-content">
-      <button class="modal-close" id="modalCloseBtn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-      <div class="modal-video-wrapper">
-        <iframe id="videosModalIframe" src="" allowfullscreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
-        </iframe>
-      </div>
-    </div>
-  </div>
 </section>
 
 <style>
@@ -562,80 +545,6 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
     border-radius: 3px;
   }
 
-  /* ─── Modal ─── */
-  .video-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-  }
-
-  .video-modal.active {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .modal-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
-  }
-
-  .modal-content {
-    position: relative;
-    width: 90%;
-    max-width: 900px;
-    aspect-ratio: 16/9;
-    transform: scale(0.85);
-    transition: transform 0.3s ease;
-  }
-
-  .video-modal.active .modal-content {
-    transform: scale(1);
-  }
-
-  .modal-close {
-    position: absolute;
-    top: -44px;
-    right: 0;
-    background: rgba(255, 255, 255, 0.12);
-    border: none;
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
-  }
-
-  .modal-close:hover {
-    background: rgba(255, 255, 255, 0.22);
-  }
-
-  .modal-video-wrapper {
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  }
-
-  .modal-video-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-  }
-
   /* ─── Responsive ─── */
   @media (max-width: 600px) {
     .carousel-arrow {
@@ -651,12 +560,6 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
     }
 
     .filter-bar::-webkit-scrollbar { display: none; }
-
-    .modal-close {
-      top: 8px;
-      right: 8px;
-      background: rgba(0,0,0,0.6);
-    }
   }
 </style>
 
@@ -803,32 +706,11 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
     refresh();
   }
 
-  // ─── Modal ───
-  const modal = document.getElementById('videosModal')!;
-  const modalIframe = document.getElementById('videosModalIframe') as HTMLIFrameElement;
-
-  function openModal(videoId: string) {
-    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    modal.classList.remove('active');
-    modalIframe.src = '';
-    document.body.style.overflow = '';
-  }
-
-  // Clicks en miniaturas de video (event delegation)
+  // Clicks en miniaturas de video → abrir en YouTube
   track.addEventListener('click', (e: MouseEvent) => {
     const thumb = (e.target as HTMLElement).closest<HTMLElement>('.video-thumb');
-    if (thumb?.dataset.videoId) openModal(thumb.dataset.videoId);
-  });
-
-  // Cerrar modal
-  document.getElementById('modalBackdrop')?.addEventListener('click', closeModal);
-  document.getElementById('modalCloseBtn')?.addEventListener('click', closeModal);
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape') closeModal();
+    if (thumb?.dataset.videoId) {
+      window.open(`https://www.youtube.com/watch?v=${thumb.dataset.videoId}`, '_blank', 'noopener,noreferrer');
+    }
   });
 </script>
