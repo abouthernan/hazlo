@@ -16,11 +16,12 @@
     <!-- Luma Calendar Embed -->
     <div class="calendar-embed">
       <iframe
+        id="luma-iframe"
         src="https://luma.com/embed/calendar/cal-JCUlotEDabveY2g/events?lt=light"
         width="100%"
         height="500"
         frameborder="0"
-        style="border: none; border-radius: 12px;"
+        style="border: none;"
         allowfullscreen=""
         aria-hidden="false"
         tabindex="0"
@@ -33,7 +34,11 @@
 <style>
   .calendar-section {
     padding: var(--space-3xl) 0;
-    background: var(--background);
+    background: #ffffff;
+  }
+
+  html[data-theme="dark"] .calendar-section {
+    background: #212325;
   }
 
   .calendar-container {
@@ -97,14 +102,13 @@
   /* Embed */
   .calendar-embed {
     width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
   }
 
   .calendar-embed iframe {
     display: block;
     width: 100%;
     min-height: 500px;
+    border-radius: 0;
   }
 
   /* Mobile */
@@ -120,3 +124,22 @@
     }
   }
 </style>
+
+<script>
+  const BASE = 'https://luma.com/embed/calendar/cal-JCUlotEDabveY2g/events';
+
+  function updateLumaTheme() {
+    const iframe = document.getElementById('luma-iframe') as HTMLIFrameElement | null;
+    if (!iframe) return;
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    iframe.src = `${BASE}?lt=${isDark ? 'dark' : 'light'}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', updateLumaTheme);
+
+  new MutationObserver(updateLumaTheme).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+</script>
+
