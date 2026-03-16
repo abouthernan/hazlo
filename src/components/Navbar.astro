@@ -295,17 +295,21 @@
   @media (max-width: 768px) {
     .navbar-container {
       padding: 0 var(--space-sm);
-      grid-template-columns: 1fr auto;
+      display: flex;
+      justify-content: flex-end;
+      position: relative;
     }
 
-    /* Ocultar nav izquierda en mobile */
+    /* Ocultar nav izquierda */
     .navbar-nav-left {
       display: none;
     }
 
-    /* Brand ocupa la columna izquierda, alineado a la izquierda */
+    /* Logo centrado absolutamente en el navbar */
     .navbar-brand {
-      justify-content: flex-start;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       padding: 0;
     }
 
