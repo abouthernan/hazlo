@@ -9,14 +9,13 @@
          <!-- Badge/Pill superior -->
       <div class="hero-badge mobile-mode">
         <span class="badge-icon">✨</span>
-        <span class="badge-text">La Comunidad</span>
+        <span class="badge-text">Hazlo Ahora</span>
       </div>
      
 
       <!-- Título principal -->
         <h1 class="hero-title">
-            <span id="dynamicText">¿Quieres aprender sobre IA?</span>
-            <span class="title-gradient">hagámoslo juntos.</span>
+            <span id="dynamicText">Aprende</span> <span class="title-gradient">IA</span>
         </h1>
 
       <!-- Subtítulo -->
@@ -60,6 +59,21 @@
   </div>
 </section>
 
+<script>
+  const words = ["Aprende", "Construye con", "Crece con"];
+  let current = 0;
+  const el = document.getElementById("dynamicText");
+
+  setInterval(() => {
+    el.style.opacity = "0";
+    setTimeout(() => {
+      current = (current + 1) % words.length;
+      el.textContent = words[current];
+      el.style.opacity = "1";
+    }, 400);
+  }, 2500);
+</script>
+
 <!-- Video Modal
 <div id="videoModal" class="video-modal">
   <div class="modal-backdrop" onclick="closeVideoModal()"></div>
@@ -84,8 +98,8 @@
 <style>
 
   #dynamicText {
-    transition: opacity 0.3s ease;
- }
+    transition: opacity 0.4s ease;
+  }
 
   .hero {
     min-height: 100vh;
