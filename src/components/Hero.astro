@@ -7,21 +7,20 @@
     <div class="hero-content">
 
          <!-- Badge/Pill superior -->
-      <div class="hero-badge mobile-mode">
+      <div class="hero-badge">
         <span class="badge-icon">✨</span>
-        <span class="badge-text">La Comunidad</span>
+        <span class="badge-text">Hazlo Ahora</span>
       </div>
      
 
       <!-- Título principal -->
         <h1 class="hero-title">
-            <span id="dynamicText">¿Quieres aprender sobre IA?</span>
-            <span class="title-gradient">hagámoslo juntos.</span>
+            <span id="dynamicText">Aprende</span> <span class="title-gradient">IA</span>
         </h1>
 
       <!-- Subtítulo -->
       <p class="hero-subtitle">
-        Somo una comunidad de emprededores, de personas apasionadas por la tecnología, la IA y el Vibecoding. Nos encanta construir y crear valor para el ecosistema de emprendimiento de LATAM.
+        Acompañamiento y Formación para empresas y emprendedores que quieren crear y construir la próxima generación de productos con IA.
       </p>
 
       <!-- CTAs -->
@@ -38,6 +37,7 @@
       
 
       <!-- Social proof / Stats -->
+      <!-- Stats ocultos temporalmente
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-number">+2.5K</span>
@@ -54,11 +54,27 @@
           <span class="stat-label">Ideas Validadas</span>
         </div>
       </div>
+      -->
     </div>
 
 
   </div>
 </section>
+
+<script>
+  const words = ["Aprende", "Construye con", "Crece con"];
+  let current = 0;
+  const el = document.getElementById("dynamicText");
+
+  setInterval(() => {
+    el.style.opacity = "0";
+    setTimeout(() => {
+      current = (current + 1) % words.length;
+      el.textContent = words[current];
+      el.style.opacity = "1";
+    }, 400);
+  }, 2500);
+</script>
 
 <!-- Video Modal
 <div id="videoModal" class="video-modal">
@@ -84,48 +100,55 @@
 <style>
 
   #dynamicText {
-    transition: opacity 0.3s ease;
- }
+    transition: opacity 0.4s ease;
+  }
 
   .hero {
-    min-height: 100vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
-    padding-top: 10rem;
-    /**padding: 6rem 0 4rem;**/
+    padding-top: 8rem;
+    padding-bottom: 4rem;
     position: relative;
   }
 
   .hero-container {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 var(--space-md);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3xl);
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
   }
 
   .hero-content {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: var(--space-lg);
+    width: 100%;
   }
 
   /* Badge */
   .hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-xs);
-    padding: var(--space-xs) var(--space-md);
-    background: rgba(255, 255, 255, 0.1);
-    border: 0px solid rgba(255, 255, 255, 0.2);
+    gap: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 50px;
     font-size: var(--font-small);
     color: var(--text-secondary);
     backdrop-filter: blur(10px);
     width: fit-content;
+    align-self: center;
     transition: var(--transition);
+  }
+
+  .hero-badge .badge-icon {
+    font-size: 1.2rem;
   }
 
   .hero-badge:hover {
@@ -157,8 +180,9 @@
   .hero-subtitle {
     font: var(--font-body-lg);
     color: var(--text-secondary);
-    max-width: 90%;
+    max-width: 600px;
     line-height: 1.6;
+    text-align: center;
   }
 
   /* Actions */
@@ -166,6 +190,7 @@
     display: flex;
     gap: var(--space-md);
     margin-top: var(--space-sm);
+    justify-content: center;
   }
 
   .hero-cta-primary {
@@ -601,7 +626,6 @@
   /* Responsive */
   @media (max-width: 1024px) {
     .hero-container {
-      grid-template-columns: 1fr;
       gap: var(--space-2xl);
       text-align: center;
     }
@@ -785,10 +809,8 @@
     display: none;
     }
 
-    .hero-badge {   
-        margin-top: 3rem;
-      padding: 0.1rem 0.9rem;
-      font-size: 0.75rem;
+    .hero-badge {
+      margin-top: 0;
     }
 
      .chat-container {

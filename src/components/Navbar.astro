@@ -4,51 +4,51 @@
 
 <nav class="navbar">
   <div class="navbar-container">
-    
-    <!-- Logo / Brand -->
-    <div class="navbar-brand">
-    <a href="/" class="brand-link">
-        <img src="/logo/logo-desktop.png" alt="Hazlo Logo" class="logo-container desktop-logo" />
-       <img src="/logo/logo-mobile.png" alt="Hazlo Logo" class="logo-container mobile-logo" />
-    </a>
+
+    <!-- Nav izquierda (desktop) -->
+    <div class="navbar-nav navbar-nav-left">
+      <a href="#empresas" class="nav-link">Empresas</a>
+      <a href="#aprende" class="nav-link">Aprende</a>
+      <a href="#recursos" class="nav-link">Recursos</a>
     </div>
 
+    <!-- Logo centrado -->
+    <div class="navbar-brand">
+      <a href="/" class="brand-link">
+        <img src="/logo/logo-mobile.png" alt="Hazlo Logo" class="logo-container" />
+      </a>
+    </div>
 
-    
+    <!-- Nav derecha (desktop) + acciones -->
+    <div class="navbar-nav navbar-nav-right">
+      <a href="#clases" class="nav-link">Clases</a>
+      <a href="#programas" class="nav-link">Programas</a>
+      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" class="nav-link">Comunidad</a>
 
-    <!-- Navigation Links (Desktop) 
-    <div class="navbar-nav">
-      <a href="#features" class="nav-link">Características</a>
-      <a href="#pricing" class="nav-link">Precios</a>
-      <a href="#about" class="nav-link">Nosotros</a>
-    </div>-->
-
-    <!-- Actions -->
-    <div class="navbar-actions">
-      <!-- <button class="theme-toggle mobile-mode" onclick="toggleTheme()" aria-label="Cambiar tema">
-        <span class="theme-icon">🌙</span>
-      </button>-->
-      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" class="btn btn-primary hero-cta-primary mobile-cat">Comunidad</a>
-      
-      
       <!-- Mobile Menu Toggle -->
       <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
-        <span class="hamburger"></span>
-        <span class="hamburger"></span>
-        
+        <svg class="icon-menu" width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="3" x2="28" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="10" y1="15" x2="28" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
       </button>
     </div>
+
   </div>
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-content">
-      <a href="#features" class="mobile-nav-link">Unierme a la comunidad</a>
-      <!--<a href="#pricing" class="mobile-nav-link">Precios</a>
-      <a href="#about" class="mobile-nav-link">Nosotros</a> -->
-      <div class="mobile-actions">
-        <a href="#signup" class="btn btn-primary mobile-cta">Iniciar gratis</a>
-      </div>
+      <a href="#comunidad" class="mobile-nav-link">Comunidad</a>
+      <a href="#empresas" class="mobile-nav-link">Empresas</a>
+      <a href="#aprende" class="mobile-nav-link">Aprende</a>
+      <a href="#recursos" class="mobile-nav-link">Recursos</a>
+      <a href="#clases" class="mobile-nav-link">Clases</a>
+      <a href="#programas" class="mobile-nav-link">Programas</a>
     </div>
   </div>
 </nav>
@@ -98,21 +98,10 @@
   }
 
   .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    height: 3rem;
+    height: 2.75rem;
     width: auto;
+    display: block;
   }
-
-  /* Mostrar logo completo por defecto */
-.desktop-logo {
-  display: inline;
-}
-
-.mobile-logo {
-  display: none;
-}
 
 
 
@@ -126,33 +115,24 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--space-md);
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     height: 4rem;
   }
 
-  /* Brand */
+  /* Brand centrado */
   .navbar-brand {
     display: flex;
     align-items: center;
-    padding-top: 0.5rem;
+    justify-content: center;
+    padding: 0 2.5rem;
   }
 
   .brand-link {
     text-decoration: none;
-    color: var(--text-primary);
-    transition: var(--transition);
-  }
-
-  .brand-text {
-    font-size: 1.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
   }
 
   /* Navigation Links */
@@ -160,6 +140,14 @@
     display: flex;
     align-items: center;
     gap: var(--space-lg);
+  }
+
+  .navbar-nav-left {
+    justify-content: flex-end;
+  }
+
+  .navbar-nav-right {
+    justify-content: flex-start;
   }
 
   .nav-link {
@@ -189,12 +177,6 @@
     width: 100%;
   }
 
-  /* Actions */
-  .navbar-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-  }
 
   .theme-toggle {
     width: 2.5rem;
@@ -219,35 +201,34 @@
   /* Mobile Menu Toggle */
   .mobile-menu-toggle {
     display: none;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
     background: none;
     border: none;
     cursor: pointer;
-    gap: 4px;
+    padding: 0;
   }
 
-  .hamburger {
-    width: 20px;
-    height: 2px;
-    background: var(--text-primary);
-    transition: var(--transition);
-    border-radius: 1px;
+  .icon-menu,
+  .icon-close {
+    color: var(--text-primary);
+    display: block;
+    transition: opacity 0.2s ease;
   }
 
-  .mobile-menu-toggle.active .hamburger:nth-child(1) {
-    transform: rotate(45deg) translate(6px, 6px);
+  .icon-close {
+    display: none;
   }
 
-  .mobile-menu-toggle.active .hamburger:nth-child(2) {
-    opacity: 0;
+  /* Estado activo → mostrar X, ocultar menú */
+  .mobile-menu-toggle.active .icon-menu {
+    display: none;
   }
 
-  .mobile-menu-toggle.active .hamburger:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
+  .mobile-menu-toggle.active .icon-close {
+    display: block;
   }
 
   /* Mobile Menu */
@@ -314,52 +295,38 @@
   @media (max-width: 768px) {
     .navbar-container {
       padding: 0 var(--space-sm);
+      display: flex;
+      justify-content: flex-end;
+      position: relative;
     }
 
-    .navbar-nav {
+    /* Ocultar nav izquierda */
+    .navbar-nav-left {
       display: none;
+    }
+
+    /* Logo centrado absolutamente en el navbar */
+    .navbar-brand {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0;
+    }
+
+    /* Nav derecha: ocultar links, mostrar solo toggle */
+    .navbar-nav-right .nav-link {
+      display: none;
+    }
+
+    .navbar-nav-right {
+      justify-content: flex-end;
     }
 
     .mobile-menu-toggle {
       display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-    .navbar-actions {
-      gap: var(--space-xs);
-    }
-
-    .theme-toggle {
-      width: 2.25rem;
-      height: 2.25rem;
-      font-size: 1rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .brand-text {
-      font-size: 1.25rem;
-    }
-
-    .btn {
-      padding: var(--space-xs) var(--space-sm);
-      font-size: 0.8rem;
-    }
-
-    /* En mobile mostrar solo H */
-
-  .desktop-logo {
-    display: none;
-  }
-  
-  .mobile-logo {
-    display: inline;
-  }
-
-
-    .mobile-cat, .mobile-text-copilot, .mobile-mode {
-    display: none;
-    }
-
   }
 
   /* Scroll effect */
