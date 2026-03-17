@@ -15,7 +15,7 @@
 
       <!-- Título principal -->
         <h1 class="hero-title">
-            <span id="dynamicText">Aprende</span> <span class="title-gradient">IA</span>
+            <span id="dynamicVerb">Aprende</span> <span class="title-gradient" id="dynamicNoun">IA</span>
         </h1>
 
       <!-- Subtítulo -->
@@ -62,16 +62,24 @@
 </section>
 
 <script>
-  const words = ["Aprende", "Crea con", "Crece con"];
+  const phrases = [
+    { verb: "Aprende",    noun: "IA" },
+    { verb: "Crea con",   noun: "Vibecode" },
+    { verb: "Escala con", noun: "Growth" },
+  ];
   let current = 0;
-  const el = document.getElementById("dynamicText");
+  const verbEl = document.getElementById("dynamicVerb");
+  const nounEl = document.getElementById("dynamicNoun");
 
   setInterval(() => {
-    el.style.opacity = "0";
+    verbEl.style.opacity = "0";
+    nounEl.style.opacity = "0";
     setTimeout(() => {
-      current = (current + 1) % words.length;
-      el.textContent = words[current];
-      el.style.opacity = "1";
+      current = (current + 1) % phrases.length;
+      verbEl.textContent = phrases[current].verb;
+      nounEl.textContent = phrases[current].noun;
+      verbEl.style.opacity = "1";
+      nounEl.style.opacity = "1";
     }, 400);
   }, 2500);
 </script>
@@ -99,7 +107,8 @@
 
 <style>
 
-  #dynamicText {
+  #dynamicVerb,
+  #dynamicNoun {
     transition: opacity 0.4s ease;
   }
 
@@ -679,6 +688,11 @@
       gap: 0.3em;
     }
 
+    /* Fuerza siempre 2 líneas: verbo en línea 1, gradiente en línea 2 */
+    #dynamicVerb {
+      flex: 1 0 100%;
+    }
+
     .hero-subtitle {
       max-width: 100%;
     }
@@ -807,6 +821,10 @@
       font-size: 3rem;
       min-height: calc(3rem * 1.1 * 2); /* reserva 2 líneas */
       gap: 0.3em;
+    }
+
+    #dynamicVerb {
+      flex: 1 0 100%;
     }
 
     .hero-container {
