@@ -80,7 +80,6 @@ const logos = [
   .logos-track {
     display: flex;
     align-items: center;
-    gap: 3rem;
     width: max-content;
     will-change: transform;
     animation: scroll-logos 24s linear infinite;
@@ -89,7 +88,6 @@ const logos = [
   @media (max-width: 768px) {
     .logos-track {
       animation-duration: 14s;
-      gap: 2rem;
     }
   }
 
@@ -104,6 +102,13 @@ const logos = [
     justify-content: center;
     flex-shrink: 0;
     height: 40px;
+    margin-right: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .logo-item {
+      margin-right: 4rem;
+    }
   }
 
   .logo-item img {
