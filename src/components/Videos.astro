@@ -675,8 +675,8 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
   }
 
   // ─── Arrows ───
-  prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
-  nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+  prevBtn.addEventListener('click', () => { goTo(currentIndex - 1); startAuto(); });
+  nextBtn.addEventListener('click', () => { goTo(currentIndex + 1); startAuto(); });
 
   // ─── Filter chips ───
   document.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach(btn => {
@@ -711,11 +711,33 @@ const CATEGORIES = ['Todos', 'Automatización', 'Ventas', 'Growth', 'Claude', 'C
     updateButtons();
   });
 
+  // ─── Auto-scroll ───
+  const AUTO_INTERVAL = 3000;
+  let autoTimer: ReturnType<typeof setInterval> | null = null;
+
+  function startAuto() {
+    if (autoTimer !== null) clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+      goTo(currentIndex >= getMaxIndex() ? 0 : currentIndex + 1);
+    }, AUTO_INTERVAL);
+  }
+
+  function stopAuto() {
+    if (autoTimer !== null) { clearInterval(autoTimer); autoTimer = null; }
+  }
+
+  // Pause on hover / touch; restart on leave
+  wrapper.addEventListener('mouseenter', stopAuto);
+  wrapper.addEventListener('mouseleave', startAuto);
+  track.addEventListener('touchstart', stopAuto, { passive: true });
+  track.addEventListener('touchend', () => { goTo(currentIndex); startAuto(); }, { passive: true });
+
   // ─── Init ───
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', refresh);
+    document.addEventListener('DOMContentLoaded', () => { refresh(); startAuto(); });
   } else {
     refresh();
+    startAuto();
   }
 
   // Clicks en miniaturas de video → abrir en YouTube

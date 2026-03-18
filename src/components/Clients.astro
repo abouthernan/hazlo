@@ -100,7 +100,6 @@ const clients = [
   .clients-track {
     display: flex;
     align-items: center;
-    gap: 3rem;
     width: max-content;
     padding: 1rem 0;
     will-change: transform;
@@ -110,7 +109,6 @@ const clients = [
   @media (max-width: 768px) {
     .clients-track {
       animation-duration: 30s;
-      gap: 2rem;
     }
   }
 
@@ -124,6 +122,13 @@ const clients = [
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    margin-right: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .client-item {
+      margin-right: 4rem;
+    }
   }
 
   .client-item img {
