@@ -103,12 +103,13 @@ const clients = [
     width: max-content;
     padding: 1rem 0;
     will-change: transform;
-    animation: scroll-clients 60s linear infinite;
+    animation: scroll-clients 60s linear -10s infinite;
   }
 
   @media (max-width: 768px) {
     .clients-track {
       animation-duration: 30s;
+      animation-delay: -10s;
     }
   }
 
