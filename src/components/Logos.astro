@@ -1,0 +1,120 @@
+---
+// Logos de clientes/herramientas — reemplazar src con los archivos reales
+const logos = [
+  { src: '/logos/bubble.png',      alt: 'Bubble' },
+  { src: '/logos/chat-gpt.png',    alt: 'ChatGPT' },
+  { src: '/logos/n8n.png',         alt: 'n8n' },
+  { src: '/logos/claude-text.png', alt: 'Claude' },
+  { src: '/logos/shopify.png',     alt: 'Shopify' },
+  { src: '/logos/gemini-text.png', alt: 'Gemini' },
+  { src: '/logos/hotjar.png',      alt: 'Hotjar' },
+  { src: '/logos/lovable-text.png',alt: 'Lovable' },
+  { src: '/logos/antigravity_product_lockup_full_color_reverse.png', alt: 'Antigravity' },
+];
+---
+
+<section class="logos-section">
+  <div class="logos-container">
+    <div class="logos-track-wrapper">
+      <!-- fade izquierdo -->
+      <div class="fade fade-left"></div>
+
+      <div class="logos-track">
+        <!-- duplicamos para loop infinito -->
+        {logos.map(logo => (
+          <div class="logo-item">
+            <img src={logo.src} alt={logo.alt} loading="lazy" />
+          </div>
+        ))}
+        {logos.map(logo => (
+          <div class="logo-item" aria-hidden="true">
+            <img src={logo.src} alt="" loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      <!-- fade derecho -->
+      <div class="fade fade-right"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .logos-section {
+    padding: var(--space-xl) 0;
+  }
+
+  .logos-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .logos-track-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Fades laterales */
+  .fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--background), transparent);
+  }
+
+  .fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--background), transparent);
+  }
+
+  /* Track animado */
+  .logos-track {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xl);
+    width: max-content;
+    animation: scroll-logos 24s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  .logos-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll-logos {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 40px;
+  }
+
+  .logo-item img {
+    height: 100%;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(0.6);
+    opacity: 0.7;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+
+  .logo-item img:hover {
+    opacity: 1;
+    filter: grayscale(100%) brightness(0.9);
+  }
+</style>
