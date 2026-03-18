@@ -1,5 +1,4 @@
 ---
-// Logos de clientes/herramientas — reemplazar src con los archivos reales
 const logos = [
   { src: '/logos/bubble.png',      alt: 'Bubble' },
   { src: '/logos/chat-gpt.png',    alt: 'ChatGPT' },
@@ -14,27 +13,21 @@ const logos = [
 ---
 
 <section class="logos-section">
-  <div class="logos-container">
-    <div class="logos-track-wrapper">
-      <!-- fade izquierdo -->
-      <div class="fade fade-left"></div>
+  <div class="logos-inner">
+    <div class="fade fade-left"></div>
+    <div class="fade fade-right"></div>
 
-      <div class="logos-track">
-        <!-- duplicamos para loop infinito -->
-        {logos.map(logo => (
-          <div class="logo-item">
-            <img src={logo.src} alt={logo.alt} loading="lazy" />
-          </div>
-        ))}
-        {logos.map(logo => (
-          <div class="logo-item" aria-hidden="true">
-            <img src={logo.src} alt="" loading="lazy" />
-          </div>
-        ))}
-      </div>
-
-      <!-- fade derecho -->
-      <div class="fade fade-right"></div>
+    <div class="logos-track">
+      {logos.map(logo => (
+        <div class="logo-item">
+          <img src={logo.src} alt={logo.alt} loading="lazy" />
+        </div>
+      ))}
+      {logos.map(logo => (
+        <div class="logo-item" aria-hidden="true">
+          <img src={logo.src} alt="" loading="lazy" />
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -44,25 +37,33 @@ const logos = [
     padding: var(--space-xl) 0;
   }
 
-  .logos-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 var(--space-lg);
-  }
-
-  .logos-track-wrapper {
+  /* Desktop: box centrado con márgenes; Mobile: ancho completo */
+  .logos-inner {
     position: relative;
     overflow: hidden;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-2xl);
   }
 
-  /* Fades laterales */
+  @media (max-width: 768px) {
+    .logos-inner {
+      padding: 0;
+    }
+  }
+
+  /* Fades */
   .fade {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 80px;
+    width: 100px;
     z-index: 2;
     pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .fade { width: 48px; }
   }
 
   .fade-left {
@@ -75,24 +76,26 @@ const logos = [
     background: linear-gradient(to left, var(--background), transparent);
   }
 
-  /* Track animado */
+  /* Track — sin transform estático para no romper el loop */
   .logos-track {
     display: flex;
     align-items: center;
-    gap: var(--space-2xl);
+    gap: 3rem;
     width: max-content;
-    animation: scroll-logos 24s linear infinite;
     will-change: transform;
-    transform: translateZ(0);
+    animation: scroll-logos 24s linear infinite;
   }
 
-  .logos-track:hover {
-    animation-play-state: paused;
+  @media (max-width: 768px) {
+    .logos-track {
+      animation-duration: 14s;
+      gap: 2rem;
+    }
   }
 
   @keyframes scroll-logos {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
   .logo-item {
