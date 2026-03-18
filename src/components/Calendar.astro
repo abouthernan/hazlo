@@ -7,7 +7,7 @@
         <span class="badge-icon">📅</span>
         <span class="badge-text">Eventos</span>
       </div>
-      <h2 class="calendar-title">Hazlo en <span class="gradient-text">Vivo</span></h2>
+      <h2 class="calendar-title"><span class="live-dot"></span>Hazlo en <span class="live-word">Vivo</span></h2>
       <p class="calendar-description">
         Todas las semanas tenemos sesiones virtuales en vivo para que aprendas haciendo. Únete, pregunta, practica y construye junto a la comunidad.
       </p>
@@ -80,11 +80,43 @@
     margin: 0;
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .live-dot {
+    display: inline-block;
+    width: 0.28em;
+    height: 0.28em;
+    border-radius: 50%;
+    background: #6be8b6;
+    flex-shrink: 0;
+    position: relative;
+    margin-right: 0.35em;
+    vertical-align: middle;
+    translate: 0 -0.08em;
+  }
+
+  .live-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: #6be8b6;
+    opacity: 0;
+    animation: live-dot-ring 2.5s ease-out infinite;
+  }
+
+  .live-word {
+    color: var(--primary-purple);
+    animation: live-word-pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes live-dot-ring {
+    0%   { transform: scale(0.6); opacity: 0.5; }
+    70%  { transform: scale(2);   opacity: 0; }
+    100% { transform: scale(2);   opacity: 0; }
+  }
+
+  @keyframes live-word-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.25; }
   }
 
   .calendar-description {
