@@ -1,0 +1,132 @@
+---
+// Intercalados: logos compactos (~2.5:1) con logos muy anchos (>3:1)
+const clients = [
+  { src: '/clientes/acofacli.png',                alt: 'Acofacli' },           // compacto
+  { src: '/clientes/azzorti.png',                 alt: 'Azzorti' },            // ancho
+  { src: '/clientes/clario-hotel.png',            alt: 'Clario Hotel' },       // compacto
+  { src: '/clientes/clligan.png',                 alt: 'Clligan' },            // ancho
+  { src: '/clientes/isarte.png',                  alt: 'Isarte' },             // compacto
+  { src: '/clientes/native-root-coffee.png',      alt: 'Native Root Coffee' }, // ancho
+  { src: '/clientes/jestar.png',                  alt: 'Jestar' },             // compacto
+  { src: '/clientes/purezza.png',                 alt: 'Purezza' },            // ancho
+  { src: '/clientes/mas-education.png',           alt: 'Más Education' },      // compacto
+  { src: '/clientes/multiobras-panama.png',       alt: 'Multiobras Panamá' },  // compacto
+  { src: '/clientes/pardo.png',                   alt: 'Pardo' },              // compacto
+  { src: '/clientes/perez-lara.png',              alt: 'Pérez Lara' },         // compacto
+  { src: '/clientes/rancho-santa-rosa.png',       alt: 'Rancho Santa Rosa' },  // compacto
+  { src: '/clientes/union-de-contadores.png',     alt: 'Unión de Contadores' },// compacto
+  { src: '/clientes/alvarez-lievano-laserna.png', alt: 'Álvarez Liévano Laserna' }, // compacto
+];
+---
+
+<section class="clients-section">
+  <div class="clients-container">
+    <div class="clients-track-wrapper">
+      <div class="fade fade-left"></div>
+
+      <div class="clients-track">
+        {clients.map(c => (
+          <div class="client-item">
+            <img src={c.src} alt={c.alt} loading="lazy" />
+          </div>
+        ))}
+        {clients.map(c => (
+          <div class="client-item" aria-hidden="true">
+            <img src={c.src} alt="" loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      <div class="fade fade-right"></div>
+    </div>
+    <p class="clients-label">Algunos de nuestros clientes</p>
+  </div>
+</section>
+
+<style>
+  .clients-section {
+    padding: 0 0 var(--space-lg);
+    margin-top: calc(-1 * var(--space-lg));
+  }
+
+  .clients-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+  }
+
+  .clients-label {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: var(--space-xl);
+    margin-bottom: 0;
+  }
+
+  .clients-track-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--background), transparent);
+  }
+
+  .fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--background), transparent);
+  }
+
+  .clients-track {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    width: max-content;
+    animation: scroll-clients 60s linear infinite;
+    /* GPU layer para evitar repaints y no ralentizar el scroll */
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  .clients-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll-clients {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .client-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .client-item img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(0.65);
+    opacity: 0.75;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+  }
+
+  .client-item img:hover {
+    opacity: 1;
+    filter: grayscale(100%) brightness(0.95);
+  }
+</style>
