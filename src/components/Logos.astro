@@ -82,12 +82,13 @@ const logos = [
     align-items: center;
     width: max-content;
     will-change: transform;
-    animation: scroll-logos 24s linear infinite;
+    animation: scroll-logos 24s linear -4s infinite;
   }
 
   @media (max-width: 768px) {
     .logos-track {
       animation-duration: 14s;
+      animation-delay: -5s;
     }
   }
 
