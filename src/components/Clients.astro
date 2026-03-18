@@ -1,46 +1,44 @@
 ---
 // Intercalados: logos compactos (~2.5:1) con logos muy anchos (>3:1)
 const clients = [
-  { src: '/clientes/acofacli.png',                alt: 'Acofacli' },           // compacto
-  { src: '/clientes/azzorti.png',                 alt: 'Azzorti' },            // ancho
-  { src: '/clientes/clario-hotel.png',            alt: 'Clario Hotel' },       // compacto
-  { src: '/clientes/clligan.png',                 alt: 'Clligan' },            // ancho
-  { src: '/clientes/isarte.png',                  alt: 'Isarte' },             // compacto
-  { src: '/clientes/native-root-coffee.png',      alt: 'Native Root Coffee' }, // ancho
-  { src: '/clientes/jestar.png',                  alt: 'Jestar' },             // compacto
-  { src: '/clientes/purezza.png',                 alt: 'Purezza' },            // ancho
-  { src: '/clientes/mas-education.png',           alt: 'Más Education' },      // compacto
-  { src: '/clientes/multiobras-panama.png',       alt: 'Multiobras Panamá' },  // compacto
-  { src: '/clientes/pardo.png',                   alt: 'Pardo' },              // compacto
-  { src: '/clientes/perez-lara.png',              alt: 'Pérez Lara' },         // compacto
-  { src: '/clientes/rancho-santa-rosa.png',       alt: 'Rancho Santa Rosa' },  // compacto
-  { src: '/clientes/union-de-contadores.png',     alt: 'Unión de Contadores' },// compacto
-  { src: '/clientes/alvarez-lievano-laserna.png', alt: 'Álvarez Liévano Laserna' }, // compacto
+  { src: '/clientes/acofacli.png',                alt: 'Acofacli' },
+  { src: '/clientes/azzorti.png',                 alt: 'Azzorti' },
+  { src: '/clientes/clario-hotel.png',            alt: 'Clario Hotel' },
+  { src: '/clientes/clligan.png',                 alt: 'Clligan' },
+  { src: '/clientes/isarte.png',                  alt: 'Isarte' },
+  { src: '/clientes/native-root-coffee.png',      alt: 'Native Root Coffee' },
+  { src: '/clientes/jestar.png',                  alt: 'Jestar' },
+  { src: '/clientes/purezza.png',                 alt: 'Purezza' },
+  { src: '/clientes/mas-education.png',           alt: 'Más Education' },
+  { src: '/clientes/multiobras-panama.png',       alt: 'Multiobras Panamá' },
+  { src: '/clientes/pardo.png',                   alt: 'Pardo' },
+  { src: '/clientes/perez-lara.png',              alt: 'Pérez Lara' },
+  { src: '/clientes/rancho-santa-rosa.png',       alt: 'Rancho Santa Rosa' },
+  { src: '/clientes/union-de-contadores.png',     alt: 'Unión de Contadores' },
+  { src: '/clientes/alvarez-lievano-laserna.png', alt: 'Álvarez Liévano Laserna' },
 ];
 ---
 
 <section class="clients-section">
-  <div class="clients-container">
-    <div class="clients-track-wrapper">
-      <div class="fade fade-left"></div>
+  <div class="clients-inner">
+    <div class="fade fade-left"></div>
+    <div class="fade fade-right"></div>
 
-      <div class="clients-track">
-        {clients.map(c => (
-          <div class="client-item">
-            <img src={c.src} alt={c.alt} loading="lazy" />
-          </div>
-        ))}
-        {clients.map(c => (
-          <div class="client-item" aria-hidden="true">
-            <img src={c.src} alt="" loading="lazy" />
-          </div>
-        ))}
-      </div>
-
-      <div class="fade fade-right"></div>
+    <div class="clients-track">
+      {clients.map(c => (
+        <div class="client-item">
+          <img src={c.src} alt={c.alt} loading="lazy" />
+        </div>
+      ))}
+      {clients.map(c => (
+        <div class="client-item" aria-hidden="true">
+          <img src={c.src} alt="" loading="lazy" />
+        </div>
+      ))}
     </div>
-    <p class="clients-label">Algunos de nuestros clientes</p>
   </div>
+
+  <p class="clients-label">Algunos de nuestros clientes</p>
 </section>
 
 <style>
@@ -49,10 +47,19 @@ const clients = [
     margin-top: calc(-1 * var(--space-lg));
   }
 
-  .clients-container {
-    max-width: 960px;
+  /* Desktop: box centrado con márgenes; Mobile: ancho completo */
+  .clients-inner {
+    position: relative;
+    overflow: hidden;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--space-lg);
+    padding: 0 var(--space-2xl);
+  }
+
+  @media (max-width: 768px) {
+    .clients-inner {
+      padding: 0;
+    }
   }
 
   .clients-label {
@@ -65,18 +72,18 @@ const clients = [
     margin-bottom: 0;
   }
 
-  .clients-track-wrapper {
-    position: relative;
-    overflow: hidden;
-  }
-
+  /* Fades */
   .fade {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 80px;
+    width: 100px;
     z-index: 2;
     pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .fade { width: 48px; }
   }
 
   .fade-left {
@@ -89,24 +96,27 @@ const clients = [
     background: linear-gradient(to left, var(--background), transparent);
   }
 
+  /* Track — sin transform estático para no romper el loop */
   .clients-track {
     display: flex;
     align-items: center;
     gap: 3rem;
     width: max-content;
-    animation: scroll-clients 60s linear infinite;
-    /* GPU layer para evitar repaints y no ralentizar el scroll */
+    padding: 1rem 0;
     will-change: transform;
-    transform: translateZ(0);
+    animation: scroll-clients 60s linear infinite;
   }
 
-  .clients-track:hover {
-    animation-play-state: paused;
+  @media (max-width: 768px) {
+    .clients-track {
+      animation-duration: 30s;
+      gap: 2rem;
+    }
   }
 
   @keyframes scroll-clients {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
   }
 
   .client-item {
