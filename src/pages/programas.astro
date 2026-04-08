@@ -6,7 +6,7 @@ import Copyright from "../components/Copyright.astro";
 ---
 
 <Layout
-  title="Domina Claude — Programa de Formación · Hazlo"
+  title="Claude para Profesionales — Programa de Formación · Hazlo"
   description="El programa definitivo para aprender Claude desde cero hasta nivel experto. 8 módulos, 16 sesiones en vivo, $270 USD."
 >
   <Navbar />
@@ -21,7 +21,7 @@ import Copyright from "../components/Copyright.astro";
         </div>
 
         <h1 class="prog-hero-title">
-          Domina <span class="title-gradient">Claude</span>
+          Claude para <span class="title-gradient">Profesionales</span>
         </h1>
 
         <p class="prog-hero-subtitle">
@@ -630,12 +630,12 @@ import Copyright from "../components/Copyright.astro";
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
-          subject: "Nueva inscripción — Domina Claude",
+          subject: "Nueva inscripción — Claude para Profesionales",
           from_name: "Hazlo Programas",
           nombre,
           email,
           telefono,
-          programa: "Domina Claude",
+          programa: "Claude para Profesionales",
         }),
       });
 
