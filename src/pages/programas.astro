@@ -649,8 +649,9 @@ import Copyright from "../components/Copyright.astro";
       successState.style.display = "flex";
     } catch (err) {
       console.error("[Form] Submit error:", err);
-      const msg = err instanceof Error ? err.message : "Error desconocido";
-      showError(`Ocurrió un error: ${msg}. Intenta de nuevo o escríbenos por WhatsApp.`);
+      const waText = encodeURIComponent(`Hola! Quiero reservar mi lugar en Claude para Profesionales.\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}`);
+      formError.innerHTML = `Hubo un problema al enviar. <a href="https://wa.me/573133846633?text=${waText}" target="_blank" rel="noopener" style="color:#25d366;font-weight:600;text-decoration:underline">Escríbenos por WhatsApp →</a>`;
+      formError.style.display = "block";
     } finally {
       setLoading(false);
     }
