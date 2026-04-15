@@ -640,12 +640,18 @@ import Copyright from "../components/Copyright.astro";
       });
 
       const data = await res.json();
-      if (!data.success) throw new Error(data.message || "Error al enviar");
+      if (!data.success) {
+        console.error("[Web3Forms] Error:", data);
+        throw new Error(data.message || "Error al enviar");
+      }
 
       formState.style.display = "none";
       successState.style.display = "flex";
-    } catch {
-      showError("Ocurrió un error. Intenta de nuevo o escríbenos por WhatsApp.");
+    } catch (err) {
+      console.error("[Form] Submit error:", err);
+      const waText = encodeURIComponent(`Hola! Quiero reservar mi lugar en Claude para Profesionales.\nNombre: ${nombre}\nEmail: ${email}\nTeléfono: ${telefono}`);
+      formError.innerHTML = `Hubo un problema al enviar. <a href="https://wa.me/573133846633?text=${waText}" target="_blank" rel="noopener" style="color:#25d366;font-weight:600;text-decoration:underline">Escríbenos por WhatsApp →</a>`;
+      formError.style.display = "block";
     } finally {
       setLoading(false);
     }
