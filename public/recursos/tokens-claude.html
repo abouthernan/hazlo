@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deja de desperdiciar tokens en Claude — Hazlo</title>
+  <meta name="description" content="10 tips categorizados con ejemplos reales para sacarle más a cada sesión con Claude sin gastar de más." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* ── Design tokens (Hazlo home) ── */
+      --background:      #0f172a;
+      --surface:         #1e293b;
+      --surface-hover:   #273344;
+      --border:          rgba(255,255,255,0.08);
+      --border-light:    rgba(255,255,255,0.06);
+      --text-primary:    #f1f5f9;
+      --text-secondary:  #94a3b8;
+      --text-muted:      #64748b;
+      --primary-purple:  #b198e9;
+      --primary-blue:    #6BE8B6;
+      --shadow:          0 4px 24px rgba(0,0,0,0.3);
+      --transition:      all 0.2s ease;
+      --space-sm:        0.5rem;
+      --space-md:        1.5rem;
+      --space-lg:        2rem;
+
+      /* ── Aliases for card components ── */
+      --bg:     #0f172a;
+      --text:   #f1f5f9;
+      --muted:  #94a3b8;
+      --purple: #b198e9;
+      --green:  #6BE8B6;
+      --red:    #f87171;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(10,15,30,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 0px solid var(--border-light);
+      transition: var(--transition);
+    }
+    .navbar.scrolled {
+      background: rgba(10,15,30,1);
+      box-shadow: var(--shadow);
+    }
+    .navbar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      height: 4rem;
+    }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2.5rem;
+    }
+    .brand-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    .logo-container {
+      height: 2.75rem;
+      width: auto;
+      display: block;
+    }
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+    }
+    .navbar-nav-left  { justify-content: flex-end; }
+    .navbar-nav-right { justify-content: flex-start; }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+    .nav-link:hover { color: var(--text-primary); }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+      transition: var(--transition);
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Mobile toggle */
+    .mobile-menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 3rem; height: 3rem;
+      background: none; border: none;
+      cursor: pointer; padding: 0;
+    }
+    .icon-menu, .icon-close { color: var(--text-primary); display: block; }
+    .icon-close { display: none; }
+    .mobile-menu-toggle.active .icon-menu { display: none; }
+    .mobile-menu-toggle.active .icon-close { display: block; }
+
+    /* Mobile menu */
+    .mobile-menu {
+      position: absolute;
+      top: 100%; left: 0; right: 0;
+      background: rgba(10,15,30,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    .mobile-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .mobile-menu-content {
+      padding: var(--space-lg) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .mobile-nav-link {
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .mobile-nav-link:hover { color: var(--primary-purple); }
+    .mobile-nav-link:last-of-type { border-bottom: none; }
+
+    @media (max-width: 768px) {
+      .navbar-container {
+        padding: 0 var(--space-sm);
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+      }
+      .navbar-nav-left { display: none; }
+      .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0;
+      }
+      .navbar-nav-right .nav-link { display: none; }
+      .navbar-nav-right { justify-content: flex-end; }
+      .mobile-menu-toggle { display: flex; }
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: calc(4rem + 3rem) 24px 4rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(177,152,233,0.12);
+      border: 1px solid rgba(177,152,233,0.3);
+      color: var(--purple);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 1.75rem;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-download {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--green) 100%);
+      color: #0f172a;
+    }
+    .btn-share {
+      background: rgba(107,232,182,0.12);
+      border: 1px solid rgba(107,232,182,0.3);
+      color: var(--green);
+    }
+
+    /* ── CATEGORY HEADER ── */
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 2.5rem 0 1.25rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--purple);
+      border-radius: 10px;
+    }
+    .cat-icon { font-size: 1.5rem; }
+    .cat-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 2px;
+    }
+    .cat-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .cat-desc { font-size: 0.9rem; color: var(--muted); margin-top: 4px; }
+
+    /* ── TIP CARD ── */
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .tip-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tip-number { color: var(--purple); }
+    .tip-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .tip-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 600px) { .tip-row { grid-template-columns: 1fr; } }
+    .tip-col {
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .tip-col-bad {
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.2);
+    }
+    .tip-col-good {
+      background: rgba(107,232,182,0.08);
+      border: 1px solid rgba(107,232,182,0.2);
+    }
+    .tip-col-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .tip-col-bad .tip-col-label { color: var(--red); }
+    .tip-col-good .tip-col-label { color: var(--green); }
+    .tip-stat {
+      margin-top: 0.75rem;
+      padding: 10px 14px;
+      background: rgba(177,152,233,0.08);
+      border: 1px solid rgba(177,152,233,0.15);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tip-stat strong { color: var(--purple); }
+
+    /* ── CTA FINAL ── */
+    .cta-block {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid rgba(177,152,233,0.25);
+      border-radius: 14px;
+      text-align: center;
+    }
+    .cta-block h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .cta-block p { font-size: 0.95rem; color: var(--muted); margin-bottom: 1.25rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 100px;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--green) 100%);
+      color: #0f172a;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+    .btn-cta:hover { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--background);
+      padding: 4rem 0 3rem;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      gap: 4rem;
+      align-items: flex-start;
+    }
+    .footer-brand {
+      flex: 0 0 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .footer-logo { height: 52px; width: auto; object-fit: contain; }
+    .footer-tagline { font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    .footer-links {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .footer-col h4.footer-col-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0 0 1rem 0;
+    }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul li a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--text-primary); }
+
+    /* Copyright */
+    .copyright { background: var(--background); padding: 1.25rem 0; border-top: 1px solid var(--border); }
+    .copyright-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .copyright-text { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+    .copyright-socials { display: flex; align-items: center; gap: 1.25rem; }
+    .copyright-socials a { color: var(--text-muted); display: flex; align-items: center; transition: color 0.2s; }
+    .copyright-socials a:hover { color: var(--text-primary); }
+
+    @media (max-width: 768px) {
+      .footer-container { flex-direction: column; gap: 2.5rem; }
+      .footer-brand { flex: none; }
+      .footer-links { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .copyright-container { flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="mainNavbar">
+  <div class="navbar-container">
+    <div class="navbar-nav navbar-nav-left">
+      <a href="https://wa.me/573133846633" target="_blank" rel="noopener noreferrer" class="nav-link">Empresas</a>
+      <a href="/#aprende" class="nav-link">Aprende</a>
+      <a href="/recursos" class="nav-link">Recursos</a>
+    </div>
+    <div class="navbar-brand">
+      <a href="/" class="brand-link">
+        <img src="/logo/logo-mobile.png" alt="Hazlo Logo" class="logo-container" />
+      </a>
+    </div>
+    <div class="navbar-nav navbar-nav-right">
+      <a href="/#clases" class="nav-link">Clases</a>
+      <a href="/programas" class="nav-link">Programas</a>
+      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" class="nav-link">Comunidad</a>
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+        <svg class="icon-menu" width="28" height="20" viewBox="0 0 28 20" fill="none">
+          <line x1="0" y1="3" x2="28" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="10" y1="15" x2="28" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-content">
+      <a href="/#comunidad" class="mobile-nav-link">Comunidad</a>
+      <a href="https://wa.me/573133846633" target="_blank" rel="noopener noreferrer" class="mobile-nav-link">Empresas</a>
+      <a href="/#aprende" class="mobile-nav-link">Aprende</a>
+      <a href="/recursos" class="mobile-nav-link">Recursos</a>
+      <a href="/#clases" class="mobile-nav-link">Clases</a>
+      <a href="/programas" class="mobile-nav-link">Programas</a>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<main class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">Recursos</div>
+    <h1>Deja de desperdiciar<br><em>tokens en Claude</em></h1>
+    <p>10 tips categorizados con ejemplos reales para sacarle más a cada sesión sin gastar de más.</p>
+    <div class="hero-actions">
+      <a href="/recursos/tokens-claude.html" download="hazlo-tokens-claude.html" class="btn btn-download">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar
+      </a>
+      <button class="btn btn-share" onclick="shareResource()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Compartir
+      </button>
+    </div>
+  </div>
+
+  <!-- CATEGORÍA 01 -->
+  <div class="cat-header">
+    <div class="cat-icon">📁</div>
+    <div>
+      <div class="cat-label">Categoría 01</div>
+      <div class="cat-title">Manejo de archivos</div>
+      <div class="cat-desc">Cómo preparar tus archivos antes de trabajar con Claude para consumir la menor cantidad de tokens posible. Pequeños cambios, grandes ahorros.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 01</span> · 📁 Archivos</div>
+    <h3>Convierte archivos antes de subirlos</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        Subir <code>contrato.pdf</code> directamente → 3.000 tokens consumidos por página
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        Copiar el texto, guardarlo como <code>contrato.md</code> y subir ese → solo 200 tokens
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Una página de PDF = 1.500–3.000 tokens.</strong> El mismo archivo en markdown = menos de 200. Es una diferencia de hasta 15×.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 02</span> · 📁 Archivos</div>
+    <h3>No subas toda tu carpeta</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        Subir toda la carpeta del proyecto cuando solo necesitas revisar un archivo
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        Subir solo el archivo que Claude necesita para esa tarea específica
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Incluso 1 token extra se acumula.</strong> Si repites el error en 10 sesiones al día, el costo es real. Menos archivos = menor costo siempre.</div>
+  </div>
+
+  <!-- CATEGORÍA 02 -->
+  <div class="cat-header">
+    <div class="cat-icon">🧠</div>
+    <div>
+      <div class="cat-label">Categoría 02</div>
+      <div class="cat-title">Gestión de contexto</div>
+      <div class="cat-desc">El contexto acumulado es el mayor consumidor de tokens. Aprender a gestionarlo puede reducir tu consumo hasta en un 88%.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 03</span> · 🧠 Contexto</div>
+    <h3>Resume cada 15–20 mensajes</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        Seguir en el mismo chat de 30 mensajes — el 88.5% de tokens se va en historial
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        "Resume todo en bullets." → copias el resumen → abres chat nuevo
+      </div>
+    </div>
+    <div class="tip-stat">📊 Un desarrollador midió su uso: <strong>el 88.5% de los tokens están en el historial.</strong> Solo el 11.5% es contenido nuevo. El historial es el enemigo silencioso.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 04</span> · 🧠 Contexto</div>
+    <h3>Nuevo tema = nuevo chat</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        En el chat de un proyecto preguntar sobre otro tema — Claude arrastra contexto irrelevante
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        Abrir chat nuevo para cada tema — contexto limpio, sin peso extra
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Cada mensaje nuevo carga todo el historial anterior.</strong> Si el tema cambió, ese contexto solo suma costo sin aportar valor.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 05</span> · 🧠 Contexto</div>
+    <h3>Pon lo importante al final del prompt</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        "Eres experto en marketing, llevas 10 años... [tarea al inicio] ...tono directo"
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        "Eres experto en marketing LATAM, tono directo. <strong>Escribe un asunto de email.</strong>"
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Claude tiene un recency bias</strong> — presta más atención a lo que está al final del prompt. Pon la tarea principal siempre al cierre.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 06</span> · 🧠 Contexto</div>
+    <h3>Reinicia, no hagas seguimiento</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        "No, eso está mal, inténtalo de nuevo" — Claude relee 20 mensajes anteriores ≈ 105K tokens
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        Editar el mensaje donde Claude se equivocó → regenerar desde ahí ≈ 2.500 tokens
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Una sesión de 25 mensajes consume ~105.000 tokens.</strong> Una de 3 mensajes = ~2.500. La diferencia es de 42×.</div>
+  </div>
+
+  <!-- CATEGORÍA 03 -->
+  <div class="cat-header">
+    <div class="cat-icon">✍️</div>
+    <div>
+      <div class="cat-label">Categoría 03</div>
+      <div class="cat-title">Cómo escribir el prompt</div>
+      <div class="cat-desc">La forma en que escribes tus prompts determina cuántos tokens gastas en correcciones y en outputs innecesariamente largos.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 07</span> · ✍️ Prompting</div>
+    <h3>Agrupa tareas en un solo mensaje</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        Msg 1: "Resume esto" → Msg 2: "Dame 3 puntos clave" → Msg 3: "Sugiere un título" = 3 recargas de contexto
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        "Resume este texto, dame 3 puntos clave y sugiere un título." = 1 sola recarga
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Cada mensaje recarga el contexto completo.</strong> 3 mensajes = 3 recargas. Agrupar tareas es absolutamente gratis.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 08</span> · ✍️ Prompting</div>
+    <h3>Pide el formato de salida explícito</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        "Dame ideas para el post de LinkedIn" → Claude responde con 3 párrafos, intro, conclusión... tokens extra
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        "Dame 5 ideas para LinkedIn. Solo el hook, máximo 10 palabras cada uno."
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Sin instrucciones de formato, Claude siempre produce más de lo necesario.</strong> Define el output desde el inicio y ahorra en cada respuesta.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 09</span> · ✍️ Prompting</div>
+    <h3>Di qué NO hacer desde el inicio</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        Claude entrega texto con introducción larga → corriges → más tokens gastados en la corrección
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        Desde el inicio: "Sin introducción, sin conclusión, sin frases como 'Claro, aquí tienes...'"
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Corregir después de recibir el resultado cuesta el doble:</strong> el error + la corrección. Las restricciones negativas son gratis.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">Tip 10 — Avanzado</span> · ✍️ Prompting</div>
+    <h3>Separa el rol del contenido con Proyectos</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Lo que sueles hacer</div>
+        Cada chat nuevo: "Eres copywriter experto en LATAM, tono directo..." = tokens repetidos en cada sesión
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Lo que deberías hacer</div>
+        En el system prompt del Proyecto defines el rol una sola vez → Claude lo tiene siempre, cacheado
+      </div>
+    </div>
+    <div class="tip-stat">📊 <strong>Anthropic confirmó:</strong> el contenido en el system prompt de Proyectos no se contabiliza igual que el contexto del chat. Es la forma más eficiente de reutilizar instrucciones.</div>
+  </div>
+
+  <!-- CTA FINAL -->
+  <div class="cta-block">
+    <h2>Aplica estos tips y ahorra tokens desde hoy</h2>
+    <p>Si quieres que tu perfil profesional sea 3X más valioso o que tu empresa adopte IA para mejorar su rentabilidad y productividad, esto te puede interesar.</p>
+    <a href="/programas" class="btn-cta">
+      Claude Para Profesionales
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <img src="/logo/logo-desktop.png" alt="Hazlo" class="footer-logo" />
+      <p class="footer-tagline">Hazlo LATAM, hazlo ahora.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4 class="footer-col-title">Explora</h4>
+        <ul>
+          <li><a href="/#comunidad">Comunidad</a></li>
+          <li><a href="https://wa.me/573133846633">Empresas</a></li>
+          <li><a href="/#aprende">Aprende</a></li>
+          <li><a href="/recursos">Recursos</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Formación</h4>
+        <ul>
+          <li><a href="/#clases">Clases</a></li>
+          <li><a href="/programas">Programas</a></li>
+          <li><a href="#">Vibecoding</a></li>
+          <li><a href="#">IA Aplicada</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Privacidad</h4>
+        <ul>
+          <li><a href="#">Política de Privacidad</a></li>
+          <li><a href="#">Datos Personales</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Términos de Uso</h4>
+        <ul>
+          <li><a href="#">Términos y Condiciones</a></li>
+          <li><a href="#">Aviso Legal</a></li>
+          <li><a href="#">Código de Conducta</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<section class="copyright">
+  <div class="copyright-container">
+    <p class="copyright-text">© 2022–2027 Hazlo. Todos los derechos reservados.</p>
+    <div class="copyright-socials">
+      <a href="https://www.linkedin.com/company/93313322/admin/dashboard/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+      <a href="https://youtube.com/@abouthernan" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://www.tiktok.com/@hazlolatam" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Mobile menu
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    if (menu && toggle) {
+      menu.classList.toggle('active');
+      toggle.classList.toggle('active');
+    }
+  }
+  window.toggleMobileMenu = toggleMobileMenu;
+
+  // Close on link click
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobileMenu')?.classList.remove('active');
+      document.querySelector('.mobile-menu-toggle')?.classList.remove('active');
+    });
+  });
+
+  // Scroll effect
+  const navbar = document.getElementById('mainNavbar');
+  window.addEventListener('scroll', () => {
+    if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Share
+  async function shareResource() {
+    const url = window.location.href;
+    const title = 'Deja de desperdiciar tokens en Claude — Hazlo';
+    if (navigator.share) {
+      await navigator.share({ title, url });
+    } else {
+      await navigator.clipboard.writeText(url);
+      const btn = document.querySelector('.btn-share');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.textContent = '¡Copiado!';
+        setTimeout(() => { btn.innerHTML = orig; }, 2000);
+      }
+    }
+  }
+  window.shareResource = shareResource;
+</script>
+</body>
+</html>

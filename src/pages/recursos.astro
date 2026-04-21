@@ -1,0 +1,302 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Copyright from '../components/Copyright.astro';
+
+const recursos = [
+  {
+    slug: 'tokens-claude',
+    title: 'Deja de desperdiciar tokens en Claude',
+    description: 'Guía práctica con tips para manejar archivos, gestionar el contexto y escribir prompts más eficientes. Ahorra tokens y obtén mejores resultados.',
+    badge: 'Tips',
+    topic: 'Claude',
+    href: '/recursos/tokens-claude.html',
+  },
+];
+---
+
+<Layout
+  title="Recursos — Hazlo"
+  description="Guías, sesiones en vivo y materiales prácticos para emprendedores que quieren usar IA de forma real."
+>
+  <Navbar />
+
+  <main class="recursos-main">
+    <!-- HERO -->
+    <section class="recursos-hero">
+      <div class="container">
+        <div class="recursos-hero-inner">
+          <div class="prog-badge">
+            <span class="badge-dot"></span>
+            <span>Hazlo · Recursos</span>
+          </div>
+          <h1 class="recursos-title">
+            Aprende con <span class="title-gradient">recursos</span> prácticos
+          </h1>
+          <p class="recursos-subtitle">
+            Guías, sesiones en vivo y materiales para que uses IA de forma real en tu trabajo o negocio.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="recursos-grid-section">
+      <div class="container">
+        <div class="recursos-grid">
+          {recursos.map((r) => (
+            <a href={r.href} class="recurso-card">
+              <!-- Thumbnail -->
+              <div class="recurso-thumb">
+                <div class="recurso-thumb-bg">
+                  <span class="recurso-thumb-title">{r.title}</span>
+                </div>
+                <span class="recurso-badge">{r.badge}</span>
+              </div>
+
+              <!-- Info -->
+              <div class="recurso-info">
+                <span class="recurso-topic">{r.topic}</span>
+                <h3 class="recurso-title">{r.title}</h3>
+                <p class="recurso-desc">{r.description}</p>
+                <div class="recurso-actions">
+                  <span class="recurso-cta recurso-cta-primary">
+                    <span>Ver recurso</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <Copyright />
+</Layout>
+
+<style>
+  .recursos-main {
+    padding-top: 4rem;
+  }
+
+  /* ── HERO ── */
+  .recursos-hero {
+    padding: 5rem 0 3rem;
+    text-align: center;
+  }
+
+  .recursos-hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .prog-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-purple);
+  }
+
+  .recursos-title {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-primary);
+  }
+
+  .title-gradient {
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .recursos-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.65;
+  }
+
+  /* ── GRID ── */
+  .recursos-grid-section {
+    padding: 2rem 0 6rem;
+  }
+
+  .recursos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ── CARD ── */
+  .recurso-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .recurso-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    border-color: var(--primary-purple);
+  }
+
+  /* Thumbnail */
+  .recurso-thumb {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #1a0e38 0%, #251848 60%, #2D1E55 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .recurso-thumb-bg {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .recurso-thumb-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 220px;
+  }
+
+  .recurso-thumb-title em {
+    color: #2EE8B6;
+    font-style: normal;
+  }
+
+  .recurso-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: rgba(46, 232, 182, 0.15);
+    border: 1px solid rgba(46, 232, 182, 0.3);
+    color: #2EE8B6;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 100px;
+  }
+
+  .recurso-slides {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background: rgba(0,0,0,0.5);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  /* Info */
+  .recurso-info {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .recurso-topic {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary-purple);
+  }
+
+  .recurso-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .recurso-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    flex: 1;
+  }
+
+  .recurso-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .recurso-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 100px;
+    padding: 0.4rem 0.85rem;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s, gap 0.2s;
+  }
+
+  .recurso-cta:hover { opacity: 0.8; }
+
+  .recurso-cta-primary {
+    background: var(--primary-purple);
+    color: #fff;
+    gap: 0.35rem;
+  }
+
+  .recurso-card:hover .recurso-cta-primary {
+    gap: 0.6rem;
+  }
+
+  @media (max-width: 640px) {
+    .recursos-hero {
+      padding: 3.5rem 0 2rem;
+    }
+
+    .recursos-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
