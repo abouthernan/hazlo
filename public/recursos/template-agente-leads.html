@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template: agente de calificación de leads — Hazlo</title>
+  <meta name="description" content="Plantilla lista para usar: construye paso a paso un agente de IA que califica prospectos, hace preguntas clave y entrega resúmenes automáticos." />
+  <link rel="icon" type="image/png" href="/logo/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --background: #0f172a;
+      --surface: #1e293b;
+      --surface-2: #263044;
+      --border: rgba(255,255,255,0.08);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --primary-purple: #b198e9;
+      --primary-blue: #6BE8B6;
+      --primary-purple-dark: #8b5cf6;
+      --font-body: 'Inter', sans-serif;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --transition: 0.2s ease;
+      --radius: 0.75rem;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR ── */
+    .hz-navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(10,15,30,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .hz-nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hz-nav-logo img { height: 36px; width: auto; display: block; }
+    .hz-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .hz-nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .hz-nav-links a:hover { color: var(--text-primary); }
+    .hz-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hz-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 100px;
+      padding: 0.5rem 1.25rem;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: all var(--transition);
+    }
+    .hz-cta-primary {
+      background: var(--primary-purple);
+      color: #0f172a;
+    }
+    .hz-cta-primary:hover { opacity: 0.88; }
+    .hz-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hz-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hz-mobile-menu {
+      display: none;
+      background: rgba(10,15,30,0.98);
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+    }
+    .hz-mobile-menu.open { display: block; }
+    .hz-mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    .hz-mobile-menu ul a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+    .hz-mobile-menu ul a:hover { color: var(--text-primary); }
+
+    @media (max-width: 768px) {
+      .hz-nav-links { display: none; }
+      .hz-nav-right .hz-cta { display: none; }
+      .hz-hamburger { display: flex; }
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ── HERO ── */
+    .article-hero {
+      padding: 7rem 0 3.5rem;
+      text-align: left;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem;
+      border-radius: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--primary-blue);
+    }
+    .article-hero h1 {
+      font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    .title-gradient {
+      background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .article-hero p.lead {
+      font-size: 1.08rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+      margin-bottom: 2rem;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+    .hero-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 0 3rem;
+    }
+
+    /* ── INTRO BOX ── */
+    .intro-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary-blue);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 3rem;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .intro-box strong { color: var(--text-primary); }
+
+    /* ── ARTICLE CONTENT ── */
+    .article-body { padding-bottom: 5rem; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    .article-body h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      margin-top: 3rem;
+      line-height: 1.3;
+    }
+    .article-body h2:first-child { margin-top: 0; }
+
+    .article-body h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .article-body p {
+      font-size: 0.97rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .article-body ul, .article-body ol {
+      padding-left: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+    .article-body li {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 0.4rem;
+    }
+    .article-body li strong { color: var(--text-primary); }
+
+    /* ── STEP CARDS ── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .step-content h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+    .step-content p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 0;
+    }
+
+    /* ── CODE BLOCK ── */
+    .code-block {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      overflow-x: auto;
+    }
+    .code-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    .code-block pre {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .code-block pre .kw { color: #c792ea; }
+    .code-block pre .str { color: #6BE8B6; }
+    .code-block pre .cm { color: #64748b; font-style: italic; }
+    .code-block pre .var { color: #b198e9; }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0 2rem;
+      font-size: 0.88rem;
+    }
+    .compare-table th {
+      background: var(--surface-2);
+      color: var(--text-primary);
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .compare-table .check { color: var(--primary-blue); font-weight: 700; }
+    .compare-table .cross { color: #f87171; font-weight: 700; }
+    .compare-table .col-feature { color: var(--text-primary); font-weight: 600; }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: rgba(107, 232, 182, 0.06);
+      border: 1px solid rgba(107, 232, 182, 0.2);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .highlight-box p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+    .highlight-box strong { color: var(--primary-blue); }
+
+    .warning-box {
+      background: rgba(177, 152, 233, 0.06);
+      border: 1px solid rgba(177, 152, 233, 0.2);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .warning-box p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+    .warning-box strong { color: var(--primary-purple); }
+
+    /* ── STAT PILLS ── */
+    .stat-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+    }
+    .stat-pill {
+      flex: 1;
+      min-width: 130px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      text-align: center;
+    }
+    .stat-pill .stat-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+      line-height: 1.2;
+      margin-bottom: 0.25rem;
+    }
+    .stat-pill .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ── PROMPT TEMPLATE ── */
+    .prompt-box {
+      background: #0d1117;
+      border: 1px solid rgba(107,232,182,0.2);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      position: relative;
+    }
+    .prompt-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--primary-blue);
+      margin-bottom: 0.75rem;
+    }
+    .prompt-box pre {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 0.83rem;
+      color: #e2e8f0;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .prompt-box .placeholder { color: var(--primary-purple); }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(177,152,233,0.08) 0%, rgba(107,232,182,0.06) 100%);
+      border: 1px solid rgba(177,152,233,0.2);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      text-align: center;
+      margin: 3rem 0 5rem;
+    }
+    .cta-section h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+    .cta-section p {
+      color: var(--text-secondary);
+      font-size: 0.97rem;
+      margin-bottom: 1.75rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── FOOTER ── */
+    .hz-footer {
+      background: var(--background);
+      padding: 4rem 0 3rem;
+      border-top: 1px solid var(--border);
+    }
+    .hz-footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      gap: 4rem;
+      align-items: flex-start;
+    }
+    .hz-footer-brand {
+      flex: 0 0 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .hz-footer-brand img { height: 52px; width: auto; }
+    .hz-footer-tagline { font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; }
+    .hz-footer-links {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .hz-footer-col h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    .hz-footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .hz-footer-col ul a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color var(--transition); }
+    .hz-footer-col ul a:hover { color: var(--text-primary); }
+
+    .hz-copyright {
+      background: var(--background);
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+    }
+    .hz-copyright-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .hz-copyright p { font-size: 0.75rem; color: var(--text-muted); }
+    .hz-copyright-social { display: flex; gap: 1rem; }
+    .hz-copyright-social a { color: var(--text-muted); transition: color var(--transition); }
+    .hz-copyright-social a:hover { color: var(--text-primary); }
+    .hz-copyright-social svg { width: 16px; height: 16px; fill: currentColor; display: block; }
+
+    @media (max-width: 768px) {
+      .hz-footer-inner { flex-direction: column; gap: 2.5rem; }
+      .hz-footer-brand { flex: none; }
+      .hz-footer-links { grid-template-columns: repeat(2, 1fr); }
+      .stat-row { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .page-wrap { padding: 0 1.25rem; }
+      .article-hero { padding: 5.5rem 0 2.5rem; }
+      .step-card { flex-direction: column; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="hz-navbar">
+  <div class="hz-nav-inner">
+    <a class="hz-nav-logo" href="/">
+      <img src="/logo/logo-desktop.png" alt="Hazlo" />
+    </a>
+    <ul class="hz-nav-links">
+      <li><a href="/#aprende">Aprende</a></li>
+      <li><a href="/clases">Clases</a></li>
+      <li><a href="/recursos">Recursos</a></li>
+      <li><a href="/programas">Programas</a></li>
+    </ul>
+    <div class="hz-nav-right">
+      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" target="_blank" class="hz-cta hz-cta-primary">
+        Comunidad
+      </a>
+      <button class="hz-hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="hz-mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="/#aprende">Aprende</a></li>
+      <li><a href="/clases">Clases</a></li>
+      <li><a href="/recursos">Recursos</a></li>
+      <li><a href="/programas">Programas</a></li>
+      <li><a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" target="_blank">Comunidad</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── ARTICLE ── -->
+<main>
+  <div class="page-wrap">
+
+    <!-- HERO -->
+    <section class="article-hero">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span>Template · Automatización</span>
+      </div>
+      <h1>Agente de <span class="title-gradient">calificación de leads</span>: plantilla lista para usar</h1>
+      <p class="lead">
+        Construye paso a paso un agente de IA que califica prospectos, hace las preguntas correctas y entrega resúmenes automáticos a tu equipo de ventas. Sin código complejo.
+      </p>
+      <div class="hero-meta">
+        <span>⏱ 15 min de lectura</span>
+        <span>📋 Template incluido</span>
+        <span>🤖 Nivel: intermedio</span>
+      </div>
+    </section>
+
+    <hr class="hero-divider" />
+
+    <!-- BODY -->
+    <div class="article-body">
+
+      <div class="intro-box">
+        <strong>¿Para quién es esto?</strong> Si tienes un negocio o equipo de ventas y recibes consultas por WhatsApp, email o formularios, este template te muestra cómo construir un agente de IA que <strong>califica automáticamente cada prospecto</strong> antes de que llegue a tu equipo. El resultado: tu equipo solo habla con leads que ya tienen contexto, presupuesto y fit.
+      </div>
+
+      <!-- PART 1 -->
+      <div class="section-label">Parte 1</div>
+      <h2>¿Qué hace exactamente un agente calificador de leads?</h2>
+
+      <p>Un agente calificador es un sistema de IA que actúa como tu primer filtro de ventas. Cuando alguien te contacta, el agente:</p>
+
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Recibe el contacto inicial</h4>
+            <p>El prospecto llena un formulario, manda un mensaje por WhatsApp o hace clic en tu CTA. El agente toma ese primer mensaje y lo procesa.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Hace preguntas de calificación</h4>
+            <p>Basado en tu framework de ventas (BANT, MEDDIC, SPIN, etc.), el agente hace las preguntas clave: presupuesto, urgencia, tamaño de empresa, dolor principal.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Califica el lead con un puntaje</h4>
+            <p>Una vez recopilada la información, el agente genera una puntuación (ej. 1–10) con justificación. Classifica el lead como Caliente, Tibio o Frío.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Entrega un resumen al equipo</h4>
+            <p>El agente envía un resumen estructurado a tu CRM, Slack, WhatsApp o email con toda la información relevante. Tu equipo entra a la conversación ya preparado.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-pill">
+          <span class="stat-num">3x</span>
+          <span class="stat-label">más conversiones vs. sin calificación</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">-60%</span>
+          <span class="stat-label">tiempo de tu equipo en leads fríos</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">24/7</span>
+          <span class="stat-label">responde sin importar la hora</span>
+        </div>
+      </div>
+
+      <!-- PART 2 -->
+      <div class="section-label">Parte 2</div>
+      <h2>El framework BANT: las 4 preguntas que debes hacer siempre</h2>
+
+      <p>BANT es el marco de calificación más usado en ventas B2B y B2C. Tu agente debe obtener respuesta a estos cuatro puntos antes de calificar un lead:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Letra</th>
+            <th>Concepto</th>
+            <th>Pregunta que debe hacer tu agente</th>
+            <th>Por qué importa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-feature">B</td>
+            <td>Budget (Presupuesto)</td>
+            <td>¿Tienes un presupuesto estimado para esto?</td>
+            <td>Filtra los que no pueden pagar</td>
+          </tr>
+          <tr>
+            <td class="col-feature">A</td>
+            <td>Authority (Autoridad)</td>
+            <td>¿Eres tú quien toma la decisión final?</td>
+            <td>Evita hablar con quien no decide</td>
+          </tr>
+          <tr>
+            <td class="col-feature">N</td>
+            <td>Need (Necesidad)</td>
+            <td>¿Cuál es el problema principal que quieres resolver?</td>
+            <td>Confirma que tienes una solución</td>
+          </tr>
+          <tr>
+            <td class="col-feature">T</td>
+            <td>Timeline (Urgencia)</td>
+            <td>¿En cuánto tiempo necesitas tener esto funcionando?</td>
+            <td>Distingue urgentes de curiosos</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box">
+        <p><strong>Tip:</strong> No hagas las cuatro preguntas seguidas como un formulario. Tu agente debe hacer una pregunta a la vez y adaptarse según las respuestas del prospecto para que se sienta una conversación natural.</p>
+      </div>
+
+      <!-- PART 3 -->
+      <div class="section-label">Parte 3</div>
+      <h2>El prompt del agente: template completo</h2>
+
+      <p>Este es el prompt base que puedes copiar y adaptar. Funciona con Claude, ChatGPT, Gemini, o cualquier LLM que uses vía API, n8n, Make o directamente en la herramienta.</p>
+
+      <div class="prompt-box">
+        <div class="prompt-label">📋 System Prompt — Agente Calificador de Leads</div>
+        <pre>Eres un asistente de ventas de <span class="placeholder">[NOMBRE_EMPRESA]</span> especializado en calificar prospectos.
+
+Tu objetivo es entender si el prospecto tiene fit con nuestra oferta y recopilar información clave para que el equipo de ventas pueda hacer un seguimiento efectivo.
+
+<span class="placeholder">[DESCRIPCIÓN DE TU PRODUCTO/SERVICIO]</span>
+Precio: <span class="placeholder">[RANGO DE PRECIOS]</span>
+Cliente ideal: <span class="placeholder">[DESCRIPCIÓN DE TU ICP]</span>
+
+INSTRUCCIONES:
+1. Saluda de manera amigable y pregunta cómo puedes ayudar
+2. Escucha el problema o necesidad inicial del prospecto
+3. Haz UNA pregunta a la vez para calificar según BANT
+4. Adapta el lenguaje según el contexto de la conversación
+5. NO menciones precios hasta que tengas claridad del fit
+6. Al final, genera un resumen de calificación
+
+PREGUNTAS DE CALIFICACIÓN (úsalas en conversación natural):
+- Presupuesto: "¿Tienes un rango de inversión en mente para esto?"
+- Autoridad: "¿Eres tú quien toma la decisión o hay más personas involucradas?"
+- Necesidad: "¿Cuál es el mayor dolor que tienes hoy con este tema?"
+- Urgencia: "¿Tienes algún plazo o fecha límite para resolver esto?"
+
+CUANDO TENGAS SUFICIENTE INFORMACIÓN, genera este resumen:
+
+---
+RESUMEN DE CALIFICACIÓN
+Nombre: [nombre]
+Empresa: [empresa si aplica]
+Necesidad principal: [problema que quiere resolver]
+Presupuesto: [lo que mencionó]
+Tomador de decisión: [sí/no/parcial]
+Urgencia: [inmediata/3 meses/explorando]
+Puntaje de calificación: [1-10]
+Clasificación: [CALIENTE / TIBIO / FRÍO]
+Recomendación: [próximo paso sugerido]
+---
+
+TONO: Profesional pero cercano. En español latinoamericano. Sin tecnicismos innecesarios.</pre>
+      </div>
+
+      <h3>Cómo personalizar el prompt para tu negocio</h3>
+      <ul>
+        <li><strong>Reemplaza los placeholders</strong> con la información real de tu empresa y producto.</li>
+        <li><strong>Ajusta las preguntas</strong> según tu ciclo de ventas. Si vendes servicios de alto valor, agrega preguntas sobre el equipo o el proceso actual.</li>
+        <li><strong>Define tus criterios de calificación</strong>: ¿qué hace que un lead sea "Caliente"? Ponlo explícito en el prompt.</li>
+        <li><strong>Cambia el formato del resumen</strong> si tu CRM espera campos específicos.</li>
+      </ul>
+
+      <!-- PART 4 -->
+      <div class="section-label">Parte 4</div>
+      <h2>Dónde y cómo conectar el agente</h2>
+
+      <p>Dependiendo de dónde recibes tus leads, puedes conectar el agente de diferentes maneras:</p>
+
+      <h3>Opción A: WhatsApp Business + n8n (recomendada)</h3>
+      <p>La combinación más usada para negocios en LATAM. El agente responde directamente en WhatsApp.</p>
+
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Configura WhatsApp Business API</h4>
+            <p>Usa Meta Business Manager o un proveedor como Twilio, 360dialog o Wati para obtener acceso a la API de WhatsApp.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Crea el flujo en n8n o Make</h4>
+            <p>Trigger: mensaje entrante de WhatsApp → Nodo de IA (Claude o GPT con el system prompt de arriba) → Respuesta al número del prospecto.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Guarda la conversación y el resumen</h4>
+            <p>Cuando el agente genere el resumen de calificación, envíalo a Google Sheets, Notion, HubSpot o tu CRM preferido.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4>Notifica al equipo de ventas</h4>
+            <p>Envía el resumen por Slack o email solo cuando el puntaje supere el umbral que definas (ej. leads con puntaje ≥ 7).</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Opción B: Formulario en tu web + email</h3>
+      <p>Si prefieres algo más simple sin WhatsApp, conéctalo a tu formulario de contacto:</p>
+      <ol>
+        <li>El prospecto llena el formulario con su consulta inicial.</li>
+        <li>n8n o Make recibe la respuesta y la envía al LLM con el system prompt.</li>
+        <li>El agente responde por email con preguntas de calificación.</li>
+        <li>Cuando el prospecto responde, el ciclo se repite hasta completar el BANT.</li>
+        <li>El resumen final llega a tu CRM o equipo.</li>
+      </ol>
+
+      <h3>Opción C: Chatbot embebido en tu web</h3>
+      <p>Si usas herramientas como Voiceflow, Botpress o Tidio, puedes embeber el agente directamente en tu sitio. Conectas el LLM a través de la API del proveedor y usas el mismo prompt base.</p>
+
+      <!-- PART 5 -->
+      <div class="section-label">Parte 5</div>
+      <h2>Prompt de resumen para el equipo de ventas</h2>
+
+      <p>Una vez que el agente calificó el lead, usa este prompt adicional para generar el mensaje que tu equipo de ventas recibirá:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-label">📋 Prompt — Resumen para el equipo</div>
+        <pre>Eres un asistente de ventas. Basándote en esta conversación con un prospecto, genera un resumen ejecutivo para el vendedor que hará el seguimiento.
+
+CONVERSACIÓN:
+<span class="placeholder">[HISTORIAL DE LA CONVERSACIÓN]</span>
+
+FORMATO DEL RESUMEN:
+🎯 Lead: [Nombre] — [Empresa si aplica]
+📞 Contacto: [Canal: WhatsApp/Email/Web]
+
+⚡ RESUMEN RÁPIDO (2 líneas máximo):
+[El problema principal y por qué es relevante para nosotros]
+
+📊 CALIFICACIÓN BANT:
+- Presupuesto: [lo que dijo + evaluación]
+- Decisor: [sí/no/parcial]
+- Necesidad: [dolor principal]
+- Urgencia: [plazo mencionado]
+
+🔥 PUNTAJE: [X/10] — [CALIENTE / TIBIO / FRÍO]
+
+✅ PRÓXIMO PASO RECOMENDADO:
+[Acción concreta: llamada, demo, propuesta, etc.]
+
+⚠️ PUNTOS A CLARIFICAR:
+- [Pregunta 1 que quedó pendiente]
+- [Pregunta 2 si aplica]</pre>
+      </div>
+
+      <!-- PART 6 -->
+      <div class="section-label">Parte 6</div>
+      <h2>Errores comunes al construir este agente</h2>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Error</th>
+            <th class="cross">❌ Mal</th>
+            <th class="check">✓ Bien</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-feature">Preguntar todo de golpe</td>
+            <td>Enviar las 4 preguntas BANT en un solo mensaje</td>
+            <td>Una pregunta a la vez, en conversación natural</td>
+          </tr>
+          <tr>
+            <td class="col-feature">Prompt genérico</td>
+            <td>Usar el template sin adaptar a tu negocio</td>
+            <td>Personalizar ICP, precios y preguntas clave</td>
+          </tr>
+          <tr>
+            <td class="col-feature">Sin contexto de marca</td>
+            <td>El agente no sabe qué vende ni cómo ayuda</td>
+            <td>Incluir descripción del producto y casos de uso</td>
+          </tr>
+          <tr>
+            <td class="col-feature">Sin memoria de la conversación</td>
+            <td>El agente repite preguntas ya respondidas</td>
+            <td>Guardar el historial y pasarlo en cada turno</td>
+          </tr>
+          <tr>
+            <td class="col-feature">No notificar en tiempo real</td>
+            <td>El equipo revisa los leads al final del día</td>
+            <td>Notificación inmediata por Slack o WhatsApp</td>
+          </tr>
+          <tr>
+            <td class="col-feature">Sin umbral de calificación</td>
+            <td>El equipo recibe todos los leads sin filtro</td>
+            <td>Solo escalar leads con puntaje ≥ 7</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- PART 7 -->
+      <div class="section-label">Parte 7</div>
+      <h2>Checklist antes de lanzar tu agente</h2>
+
+      <div class="highlight-box">
+        <p><strong>Antes de conectarlo a prospectos reales</strong>, asegúrate de completar cada punto de esta lista. Un agente mal configurado puede dañar la imagen de tu marca.</p>
+      </div>
+
+      <ul>
+        <li>✅ <strong>System prompt personalizado</strong> con nombre de empresa, producto y ICP definido</li>
+        <li>✅ <strong>Preguntas BANT adaptadas</strong> a tu ciclo de ventas específico</li>
+        <li>✅ <strong>Criterios de puntaje claros</strong>: ¿qué es un 7? ¿qué es un 10?</li>
+        <li>✅ <strong>Historial de conversación</strong> guardado y pasado al LLM en cada turno</li>
+        <li>✅ <strong>Pruebas con 10 conversaciones simuladas</strong> antes de ir en vivo</li>
+        <li>✅ <strong>Conexión al CRM o Google Sheets</strong> para guardar los resúmenes</li>
+        <li>✅ <strong>Notificación configurada</strong> al equipo de ventas (Slack, email o WhatsApp)</li>
+        <li>✅ <strong>Umbral de escalamiento definido</strong>: solo notificar si puntaje ≥ X</li>
+        <li>✅ <strong>Fallback para preguntas fuera de scope</strong>: el agente sabe cuándo decir "te conecto con alguien del equipo"</li>
+        <li>✅ <strong>Mensaje de bienvenida claro</strong>: el prospecto sabe que habla con un asistente de IA</li>
+      </ul>
+
+      <div class="warning-box">
+        <p><strong>Transparencia:</strong> En muchos países de LATAM es obligatorio informarle al usuario que está interactuando con un sistema automatizado o IA. Incluye siempre un mensaje como "Soy el asistente virtual de [Empresa]" al inicio de la conversación.</p>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-section">
+        <h2>¿Quieres construirlo con acompañamiento?</h2>
+        <p>En nuestros programas te enseñamos a construir este agente desde cero, con las herramientas que ya usas en tu negocio.</p>
+        <a href="/programas" class="hz-cta hz-cta-primary" style="font-size:1rem; padding:0.75rem 2rem; display:inline-flex;">
+          Ver programas de formación
+        </a>
+      </div>
+
+    </div><!-- /article-body -->
+  </div><!-- /page-wrap -->
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="hz-footer">
+  <div class="hz-footer-inner">
+    <div class="hz-footer-brand">
+      <img src="/logo/logo-desktop.png" alt="Hazlo" />
+      <p class="hz-footer-tagline">Hazlo LATAM, hazlo ahora.</p>
+    </div>
+    <div class="hz-footer-links">
+      <div class="hz-footer-col">
+        <h4>Explora</h4>
+        <ul>
+          <li><a href="#">Comunidad</a></li>
+          <li><a href="#">Empresas</a></li>
+          <li><a href="#">Aprende</a></li>
+          <li><a href="/recursos">Recursos</a></li>
+        </ul>
+      </div>
+      <div class="hz-footer-col">
+        <h4>Formación</h4>
+        <ul>
+          <li><a href="/clases">Clases</a></li>
+          <li><a href="#">Programas</a></li>
+          <li><a href="#">Vibecoding</a></li>
+          <li><a href="#">IA Aplicada</a></li>
+        </ul>
+      </div>
+      <div class="hz-footer-col">
+        <h4>Privacidad</h4>
+        <ul>
+          <li><a href="#">Política de Privacidad</a></li>
+          <li><a href="#">Datos Personales</a></li>
+        </ul>
+      </div>
+      <div class="hz-footer-col">
+        <h4>Términos de Uso</h4>
+        <ul>
+          <li><a href="#">Términos y Condiciones</a></li>
+          <li><a href="#">Aviso Legal</a></li>
+          <li><a href="#">Código de Conducta</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="hz-copyright">
+  <div class="hz-copyright-inner">
+    <p>© 2025 Hazlo. Todos los derechos reservados.</p>
+    <div class="hz-copyright-social">
+      <a href="https://www.linkedin.com/in/abouthernan/" target="_blank" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@abouthernan" target="_blank" aria-label="TikTok">
+        <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+  }
+</script>
+</body>
+</html>

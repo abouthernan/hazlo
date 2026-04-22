@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GEO: cómo aparecer en ChatGPT, Claude y Gemini — Hazlo</title>
+  <meta name="description" content="Guía práctica de Generative Engine Optimization: estrategias para que tu marca sea citada por los principales asistentes de IA." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --background: #0f172a; --surface: #1e293b; --surface-hover: #273344;
+      --border: rgba(255,255,255,0.08); --border-light: rgba(255,255,255,0.06);
+      --text-primary: #f1f5f9; --text-secondary: #94a3b8; --text-muted: #64748b;
+      --primary-purple: #b198e9; --primary-blue: #6BE8B6;
+      --shadow: 0 4px 24px rgba(0,0,0,0.3); --transition: all 0.2s ease;
+      --space-sm: 0.5rem; --space-md: 1.5rem; --space-lg: 2rem;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; }
+
+    /* NAVBAR */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(10,15,30,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); transition: var(--transition); }
+    .navbar.scrolled { background: rgba(10,15,30,1); box-shadow: var(--shadow); }
+    .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 4rem; }
+    .navbar-brand { display: flex; align-items: center; justify-content: center; padding: 0 2.5rem; }
+    .brand-link { text-decoration: none; display: flex; align-items: center; }
+    .logo-container { height: 2.75rem; width: auto; display: block; }
+    .navbar-nav { display: flex; align-items: center; gap: var(--space-lg); }
+    .navbar-nav-left { justify-content: flex-end; }
+    .navbar-nav-right { justify-content: flex-start; }
+    .nav-link { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: var(--transition); position: relative; font-size: 14px; }
+    .nav-link:hover { color: var(--text-primary); }
+    .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%); transition: var(--transition); }
+    .nav-link:hover::after { width: 100%; }
+    .mobile-menu-toggle { display: none; align-items: center; justify-content: center; width: 3rem; height: 3rem; background: none; border: none; cursor: pointer; padding: 0; }
+    .icon-menu, .icon-close { color: var(--text-primary); display: block; }
+    .icon-close { display: none; }
+    .mobile-menu-toggle.active .icon-menu { display: none; }
+    .mobile-menu-toggle.active .icon-close { display: block; }
+    .mobile-menu { position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,15,30,0.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); transform: translateY(-100%); opacity: 0; visibility: hidden; transition: var(--transition); }
+    .mobile-menu.active { transform: translateY(0); opacity: 1; visibility: visible; }
+    .mobile-menu-content { padding: var(--space-lg) var(--space-md); display: flex; flex-direction: column; gap: var(--space-md); }
+    .mobile-nav-link { text-decoration: none; color: var(--text-primary); font-weight: 500; font-size: 1.1rem; padding: var(--space-sm) 0; border-bottom: 1px solid var(--border-light); }
+    .mobile-nav-link:hover { color: var(--primary-purple); }
+    .mobile-nav-link:last-of-type { border-bottom: none; }
+    @media (max-width: 768px) {
+      .navbar-container { padding: 0 var(--space-sm); display: flex; justify-content: flex-end; position: relative; }
+      .navbar-nav-left { display: none; }
+      .navbar-brand { position: absolute; left: 50%; transform: translateX(-50%); padding: 0; }
+      .navbar-nav-right .nav-link { display: none; }
+      .navbar-nav-right { justify-content: flex-end; }
+      .mobile-menu-toggle { display: flex; }
+    }
+
+    /* PAGE */
+    .page { max-width: 780px; margin: 0 auto; padding: calc(4rem + 3rem) 24px 4rem; }
+
+    /* HERO */
+    .hero { text-align: center; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
+    .hero-badge { display: inline-block; background: rgba(177,152,233,0.12); border: 1px solid rgba(177,152,233,0.3); color: var(--primary-purple); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 1.25rem; }
+    .hero h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+    .hero h1 em { font-style: normal; color: var(--primary-blue); }
+    .hero p { font-size: 1.05rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto 1.75rem; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; border-radius: 100px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; border: none; font-family: 'Inter', sans-serif; transition: opacity .2s; }
+    .btn:hover { opacity: 0.85; }
+    .btn-download { background: var(--primary-purple); color: #0f172a; border: 1px solid var(--primary-purple); }
+    .btn-share { background: rgba(107,232,182,0.12); border: 1px solid rgba(107,232,182,0.3); color: var(--primary-blue); }
+
+    /* SECTIONS */
+    .section-intro { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2.5rem; padding: 1.25rem 1.5rem; background: var(--surface); border-radius: 10px; border-left: 3px solid var(--primary-purple); }
+
+    .cat-header { display: flex; align-items: flex-start; gap: 12px; margin: 2.5rem 0 1.25rem; padding: 1.25rem 1.5rem; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--primary-purple); border-radius: 10px; }
+    .cat-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .cat-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary-purple); margin-bottom: 2px; }
+    .cat-title { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+    .cat-desc { font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
+
+    .tip-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+    .tip-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 6px; }
+    .tip-number { color: var(--primary-purple); }
+    .tip-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); }
+    .tip-card p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.75rem; }
+    .tip-card p:last-child { margin-bottom: 0; }
+
+    .tip-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0.75rem 0; }
+    @media (max-width: 600px) { .tip-row { grid-template-columns: 1fr; } }
+    .tip-col { padding: 12px 14px; border-radius: 8px; font-size: 0.875rem; line-height: 1.5; }
+    .tip-col-bad { background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.2); }
+    .tip-col-good { background: rgba(107,232,182,0.08); border: 1px solid rgba(107,232,182,0.2); }
+    .tip-col-label { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+    .tip-col-bad .tip-col-label { color: #f87171; }
+    .tip-col-good .tip-col-label { color: var(--primary-blue); }
+
+    .tip-stat { margin-top: 0.75rem; padding: 10px 14px; background: rgba(177,152,233,0.08); border: 1px solid rgba(177,152,233,0.15); border-radius: 8px; font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
+    .tip-stat strong { color: var(--primary-purple); }
+
+    code { background: rgba(255,255,255,0.06); border: 1px solid var(--border); padding: 2px 7px; border-radius: 4px; font-size: 0.82rem; font-family: 'Courier New', monospace; color: var(--primary-blue); }
+
+    .cta-block { margin-top: 3rem; padding: 2rem; background: var(--surface); border: 1px solid rgba(177,152,233,0.25); border-radius: 14px; text-align: center; }
+    .cta-block h2 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .cta-block p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.25rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .btn-cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 100px; background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%); color: #0f172a; font-size: 15px; font-weight: 700; text-decoration: none; transition: opacity .2s; }
+    .btn-cta:hover { opacity: 0.85; }
+
+    /* FOOTER */
+    .footer { background: #0a0f1e; border-top: 1px solid var(--border); padding: 4rem 0 3rem; }
+    .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; gap: 4rem; align-items: flex-start; flex-wrap: wrap; }
+    .footer-brand { flex: 0 0 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .footer-logo { height: 52px; width: auto; object-fit: contain; }
+    .footer-tagline { font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+    .footer-links { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .footer-col h4 { font-size: 0.75rem; font-weight: 700; color: var(--text-primary); margin: 0 0 1rem 0; }
+    .footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col ul li a { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--text-primary); }
+    .copyright { background: #0a0f1e; padding: 1.25rem 0; border-top: 1px solid var(--border); }
+    .copyright-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .copyright-text { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+    .copyright-socials { display: flex; align-items: center; gap: 1.25rem; }
+    .copyright-socials a { color: var(--text-muted); display: flex; align-items: center; transition: color 0.2s; }
+    .copyright-socials a:hover { color: var(--text-primary); }
+    @media (max-width: 768px) {
+      .footer-container { flex-direction: column; gap: 2.5rem; }
+      .footer-brand { flex: none; }
+      .footer-links { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .copyright-container { flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="mainNavbar">
+  <div class="navbar-container">
+    <div class="navbar-nav navbar-nav-left">
+      <a href="https://wa.me/573133846633" target="_blank" rel="noopener noreferrer" class="nav-link">Empresas</a>
+      <a href="/#aprende" class="nav-link">Aprende</a>
+      <a href="/recursos" class="nav-link">Recursos</a>
+    </div>
+    <div class="navbar-brand">
+      <a href="/" class="brand-link">
+        <img src="/logo/logo-mobile.png" alt="Hazlo Logo" class="logo-container" />
+      </a>
+    </div>
+    <div class="navbar-nav navbar-nav-right">
+      <a href="/clases" class="nav-link">Clases</a>
+      <a href="/programas" class="nav-link">Programas</a>
+      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" class="nav-link">Comunidad</a>
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+        <svg class="icon-menu" width="28" height="20" viewBox="0 0 28 20" fill="none">
+          <line x1="0" y1="3" x2="28" y2="3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="10" y1="15" x2="28" y2="15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-content">
+      <a href="https://chat.whatsapp.com/KDSfG6NQcyK0hLDo2NpKbh?mode=ems_copy_t" target="_blank" rel="noopener noreferrer" class="mobile-nav-link">Comunidad</a>
+      <a href="https://wa.me/573133846633" target="_blank" rel="noopener noreferrer" class="mobile-nav-link">Empresas</a>
+      <a href="/#aprende" class="mobile-nav-link">Aprende</a>
+      <a href="/recursos" class="mobile-nav-link">Recursos</a>
+      <a href="/clases" class="mobile-nav-link">Clases</a>
+      <a href="/programas" class="mobile-nav-link">Programas</a>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="hero">
+    <div class="hero-badge">Recursos · Guía</div>
+    <h1>GEO: cómo aparecer en<br><em>ChatGPT, Claude y Gemini</em></h1>
+    <p>Estrategias prácticas de Generative Engine Optimization para que tu marca sea citada y recomendada por los principales asistentes de IA.</p>
+    <div class="hero-actions">
+      <a href="/recursos/geo-ia.html" download="geo-ia-hazlo.html" class="btn btn-download">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Descargar
+      </a>
+      <button class="btn btn-share" onclick="shareResource()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Compartir
+      </button>
+    </div>
+  </div>
+
+  <p class="section-intro">
+    El SEO tradicional optimiza para motores de búsqueda. <strong>GEO</strong> (Generative Engine Optimization) optimiza para que los asistentes de IA te mencionen, te recomienden y te citen cuando alguien hace una pregunta relevante. Si tu marca no aparece en las respuestas de ChatGPT, Claude o Gemini, estás perdiendo visibilidad ante millones de usuarios.
+  </p>
+
+  <!-- CATEGORÍA 1 -->
+  <div class="cat-header">
+    <div class="cat-icon">🧠</div>
+    <div>
+      <div class="cat-label">Parte 01</div>
+      <div class="cat-title">Cómo piensan los asistentes de IA</div>
+      <div class="cat-desc">Para optimizar, primero hay que entender cómo los modelos generan respuestas y de dónde sacan la información que citan.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">01</span> · Concepto clave</div>
+    <h3>Los LLMs no hacen búsquedas en tiempo real (casi siempre)</h3>
+    <p>ChatGPT, Claude y Gemini generan respuestas a partir de su entrenamiento. Eso significa que mencionan marcas, conceptos y fuentes que aparecían frecuentemente en textos de alta calidad durante su entrenamiento. <strong>Si no estabas en esos textos, no existes para el modelo.</strong></p>
+    <p>Los modelos con búsqueda en tiempo real (Perplexity, ChatGPT con web) sí rastrean la web. Para estos, el SEO tradicional sigue siendo relevante, pero la forma en que presentas tu contenido también importa.</p>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">02</span> · Concepto clave</div>
+    <h3>Los modelos prefieren fuentes autoritativas y bien estructuradas</h3>
+    <p>Los LLMs aprenden de contenido que fue enlazado, citado y compartido por otras fuentes confiables. Un artículo publicado en tu blog que nadie enlaza tiene menos peso que uno publicado en una plataforma con alta autoridad.</p>
+    <div class="tip-stat"><strong>Principio GEO:</strong> La visibilidad en IA es proporcional a cuántas fuentes de calidad te mencionan, citan o enlazan.</div>
+  </div>
+
+  <!-- CATEGORÍA 2 -->
+  <div class="cat-header">
+    <div class="cat-icon">✍️</div>
+    <div>
+      <div class="cat-label">Parte 02</div>
+      <div class="cat-title">Optimiza tu contenido para ser citado</div>
+      <div class="cat-desc">Cambios concretos en cómo escribes y estructuras tu contenido para que los asistentes de IA lo usen como referencia.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">03</span> · Táctica</div>
+    <h3>Escribe respuestas directas, no solo artículos informativos</h3>
+    <div class="tip-row">
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Difícil de citar</div>
+        "En este artículo exploraremos las múltiples dimensiones del marketing digital y cómo puede beneficiar a tu empresa en el largo plazo..."
+      </div>
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Fácil de citar</div>
+        "El GEO es la práctica de optimizar contenido para aparecer en respuestas de asistentes de IA como ChatGPT, Claude y Gemini."
+      </div>
+    </div>
+    <div class="tip-stat"><strong>Regla de oro:</strong> Si alguien pregunta exactamente tu tema, tu primera oración debería ser la mejor respuesta posible a esa pregunta.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">04</span> · Táctica</div>
+    <h3>Usa estructura clara: listas, headers y definiciones</h3>
+    <p>Los modelos de IA tienen más facilidad para extraer información de contenido bien estructurado. Los formatos que mejor funcionan:</p>
+    <div class="tip-row">
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Alta citabilidad</div>
+        Listas numeradas · Definiciones explícitas · Headers descriptivos · Tablas comparativas · Estadísticas con fuente
+      </div>
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Baja citabilidad</div>
+        Párrafos largos sin estructura · Información enterrada en el medio · Títulos vagos como "Más información"
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">05</span> · Táctica</div>
+    <h3>Incluye estadísticas propias y cita fuentes externas</h3>
+    <p>Los asistentes de IA tienden a citar contenido que a su vez cita datos verificables. Si tu artículo tiene estadísticas originales o referencias a estudios reconocidos, su "peso" aumenta.</p>
+    <p>Cuando sea posible, genera tus propios datos: encuestas a tu comunidad, análisis de tus clientes, resultados de experimentos. <strong>Los datos propios son imanes de citación.</strong></p>
+  </div>
+
+  <!-- CATEGORÍA 3 -->
+  <div class="cat-header">
+    <div class="cat-icon">🔗</div>
+    <div>
+      <div class="cat-label">Parte 03</div>
+      <div class="cat-title">Construye autoridad externa</div>
+      <div class="cat-desc">Tu marca necesita ser mencionada en fuentes que los LLMs consideran confiables.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">06</span> · Táctica</div>
+    <h3>Aparece en publicaciones con alta autoridad de dominio</h3>
+    <p>Forbes, HubSpot, Medium, G2, Product Hunt, GitHub, Wikipedia. Estos son sitios que los modelos han procesado extensamente. Un artículo de invitado, una mención en un comparativo o una reseña en estas plataformas tiene un impacto directo en tu visibilidad en IA.</p>
+    <div class="tip-stat"><strong>Acción rápida:</strong> Busca en Google <code>[tu categoría] site:medium.com</code> y contacta a los autores más activos para colaborar o ser mencionado.</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">07</span> · Táctica</div>
+    <h3>Activa tu presencia en Reddit, Quora y foros especializados</h3>
+    <p>Perplexity, ChatGPT con web y Gemini rastrean activamente Reddit y Quora. Responder preguntas relevantes en estas plataformas —con tu nombre o el de tu marca— es una de las tácticas de GEO con mayor ROI a corto plazo.</p>
+    <div class="tip-row">
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">✓ Cómo hacerlo</div>
+        Busca preguntas sobre tu tema en Reddit → responde con valor real → menciona tu marca solo cuando sea relevante → haz esto consistentemente
+      </div>
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">✗ Qué evitar</div>
+        Spam de links · Respuestas genéricas · Crear cuentas falsas · Promocionar sin aportar valor real
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">08</span> · Táctica</div>
+    <h3>Crea tu entrada en Wikipedia o Wikidata (si aplica)</h3>
+    <p>Wikipedia es una de las fuentes más citadas por LLMs. Si tu empresa, fundador o producto tiene suficiente notoriedad verificable, una entrada en Wikipedia puede aumentar drásticamente tu aparición en respuestas de IA.</p>
+    <div class="tip-stat"><strong>Requisito:</strong> Wikipedia exige "notoriedad verificable" — necesitas menciones en medios independientes antes de crear o editar tu entrada.</div>
+  </div>
+
+  <!-- CATEGORÍA 4 -->
+  <div class="cat-header">
+    <div class="cat-icon">🧪</div>
+    <div>
+      <div class="cat-label">Parte 04</div>
+      <div class="cat-title">Mide y ajusta</div>
+      <div class="cat-desc">GEO es un proceso continuo. Así mides si tu estrategia está funcionando.</div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">09</span> · Medición</div>
+    <h3>Audita tu visibilidad en IA hoy mismo</h3>
+    <p>Abre ChatGPT, Claude y Gemini y hazles estas preguntas (reemplaza con tu categoría):</p>
+    <div class="tip-row">
+      <div class="tip-col tip-col-good">
+        <div class="tip-col-label">Preguntas de auditoría</div>
+        "¿Cuáles son las mejores herramientas de [tu categoría]?" · "¿Qué empresas lideran [tu mercado] en LATAM?" · "¿Qué dicen los expertos sobre [tu tema]?"
+      </div>
+      <div class="tip-col tip-col-bad">
+        <div class="tip-col-label">Registra los resultados</div>
+        ¿Tu marca aparece? ¿En qué posición? ¿Qué marcas sí aparecen? Repite este proceso cada mes para medir progreso.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-label"><span class="tip-number">10</span> · Avanzado</div>
+    <h3>Optimiza para "cuando alguien pregunta por ti directamente"</h3>
+    <p>Googlea tu marca. Luego pregúntale a Claude o ChatGPT: <code>"¿Qué es [tu marca]?"</code>. Si la respuesta es incorrecta, incompleta o no apareces, necesitas publicar más contenido fundacional sobre ti mismo: página "Acerca de" detallada, press kit, entrevistas, comunicados de prensa indexados.</p>
+    <div class="tip-stat"><strong>Meta a 90 días:</strong> Que todos los asistentes principales respondan correctamente quién eres, qué haces y para quién lo haces cuando se les pregunta directamente.</div>
+  </div>
+
+  <div class="cta-block">
+    <h2>Aplica GEO con IA de forma estratégica</h2>
+    <p>En Claude Para Profesionales aprendes a usar IA para crear contenido que sea citado, rankee y convierta. En 8 semanas, de herramienta a ventaja competitiva.</p>
+    <a href="/programas" class="btn-cta">
+      Ver Claude Para Profesionales
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <img src="/logo/logo-desktop.png" alt="Hazlo" class="footer-logo" />
+      <p class="footer-tagline">Hazlo LATAM, hazlo ahora.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col"><h4>Explora</h4><ul><li><a href="/#comunidad">Comunidad</a></li><li><a href="https://wa.me/573133846633">Empresas</a></li><li><a href="/#aprende">Aprende</a></li><li><a href="/recursos">Recursos</a></li></ul></div>
+      <div class="footer-col"><h4>Formación</h4><ul><li><a href="/clases">Clases</a></li><li><a href="/programas">Programas</a></li><li><a href="#">Vibecoding</a></li><li><a href="#">IA Aplicada</a></li></ul></div>
+      <div class="footer-col"><h4>Privacidad</h4><ul><li><a href="#">Política de Privacidad</a></li><li><a href="#">Datos Personales</a></li></ul></div>
+      <div class="footer-col"><h4>Términos de Uso</h4><ul><li><a href="#">Términos y Condiciones</a></li><li><a href="#">Aviso Legal</a></li><li><a href="#">Código de Conducta</a></li></ul></div>
+    </div>
+  </div>
+</footer>
+<section class="copyright">
+  <div class="copyright-container">
+    <p class="copyright-text">© 2022–2027 Hazlo. Todos los derechos reservados.</p>
+    <div class="copyright-socials">
+      <a href="https://www.linkedin.com/in/abouthernan/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="https://youtube.com/@abouthernan" target="_blank" rel="noopener" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://www.tiktok.com/@abouthernan" target="_blank" rel="noopener" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    if (menu && toggle) { menu.classList.toggle('active'); toggle.classList.toggle('active'); }
+  }
+  window.toggleMobileMenu = toggleMobileMenu;
+  document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', () => {
+    document.getElementById('mobileMenu')?.classList.remove('active');
+    document.querySelector('.mobile-menu-toggle')?.classList.remove('active');
+  }));
+  const navbar = document.getElementById('mainNavbar');
+  window.addEventListener('scroll', () => { if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50); });
+  async function shareResource() {
+    const url = window.location.href;
+    if (navigator.share) { await navigator.share({ title: 'GEO: cómo aparecer en ChatGPT, Claude y Gemini — Hazlo', url }); }
+    else { await navigator.clipboard.writeText(url); const btn = document.querySelector('.btn-share'); if(btn){const o=btn.innerHTML;btn.textContent='¡Copiado!';setTimeout(()=>{btn.innerHTML=o;},2000);} }
+  }
+  window.shareResource = shareResource;
+</script>
+</body>
+</html>
