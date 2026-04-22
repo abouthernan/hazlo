@@ -1,0 +1,488 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Copyright from '../components/Copyright.astro';
+
+const clases = [
+  {
+    id: 'vMfzEBQ32wk',
+    badge: 'Charla',
+    title: 'Claude Mythos y el Proyecto Glasswing',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Claude'],
+  },
+  {
+    id: 'DVxnWbEq2o8',
+    badge: 'Workshop',
+    title: 'Claude Cowork: Casos de Uso',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Claude'],
+  },
+  {
+    id: 'o2JeuXLr9EQ',
+    badge: 'Charla',
+    title: 'Para qué están usando IA las empresas',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['IA'],
+  },
+  {
+    id: 'ZUrYIbfNOF0',
+    badge: 'Charla',
+    title: 'GEO: cómo aparecer en asistentes de IA',
+    speaker: 'Jose',
+    role: 'CEO de Beyond Noise',
+    date: '2026',
+    categories: ['Claude', 'IA'],
+  },
+  {
+    id: 'IC0DapJ6GLo',
+    badge: 'Webinar',
+    title: 'Herramientas IA para potenciar tu negocio',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['IA', 'Automatización'],
+  },
+  {
+    id: 'Hd4ig6nBapY',
+    badge: 'Webinar',
+    title: 'Agentes IA: asistente comercial y de ventas',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Ventas', 'Automatización'],
+  },
+  {
+    id: 'h7FzKbqsA94',
+    badge: 'Webinar',
+    title: 'Cómo prospectar y generar leads con IA',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Ventas', 'Automatización'],
+  },
+  {
+    id: 'wyFvh4Isl_g',
+    badge: 'Charla',
+    title: 'OpenClaw: por qué está revolucionando la IA',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Claude', 'IA'],
+  },
+  {
+    id: 'rdnN_xdObZ0',
+    badge: 'Webinar',
+    title: 'Cómo construir un agente de IA que califique leads',
+    speaker: 'Hernán Estupiñán',
+    role: 'Fundador Hazlo',
+    date: '2026',
+    categories: ['Automatización', 'Ventas'],
+  },
+  {
+    id: 'C5ZKq9csLpQ',
+    badge: 'Workshop',
+    title: 'Team Building',
+    speaker: 'Michel Haeuzeur',
+    role: 'CEO La Corte de los Búhos',
+    date: '2025',
+    categories: ['Cowork'],
+  },
+  {
+    id: 'E5rqHePG-60',
+    badge: 'Workshop',
+    title: 'Crea un producto que todos quieran',
+    speaker: 'Salom Zarruk',
+    role: 'CEO de Mono',
+    date: '2024',
+    categories: ['Growth'],
+  },
+  {
+    id: 'gqhQowYi8OU',
+    badge: 'Charla',
+    title: 'Valida antes de construir el MVP',
+    speaker: 'Damian Sanchez',
+    role: 'Cofounder Novolabs',
+    date: '2023',
+    categories: ['Growth'],
+  },
+  {
+    id: 'CY4NGGlOugw',
+    badge: 'Webinar',
+    title: 'Levanta capital para tu Startup',
+    speaker: 'Nahuel Lema',
+    role: 'CEO de Coderhouse',
+    date: '2023',
+    categories: ['Capital'],
+  },
+];
+
+const CATEGORIES = ['Todos', 'Claude', 'IA', 'Automatización', 'Ventas', 'Growth', 'Capital', 'Cowork'];
+
+const badgeColor: Record<string, string> = {
+  Charla:   'badge-charla',
+  Workshop: 'badge-workshop',
+  Webinar:  'badge-webinar',
+};
+---
+
+<Layout
+  title="Clases — Hazlo"
+  description="Talleres, webinars y charlas en vivo sobre IA, ventas, automatización y emprendimiento. Sesiones de Hazlo en vivo."
+>
+  <Navbar />
+
+  <main class="clases-main">
+    <!-- HERO -->
+    <section class="clases-hero">
+      <div class="container">
+        <div class="clases-hero-inner">
+          <div class="prog-badge">
+            <span class="badge-dot"></span>
+            <span>Hazlo en Vivo · Sesiones</span>
+          </div>
+          <h1 class="clases-title">
+            Aprende en <span class="title-gradient">sesiones reales</span>
+          </h1>
+          <p class="clases-subtitle">
+            Talleres, webinars y charlas con expertos en IA, ventas, automatización y emprendimiento. Todos los miércoles en comunidad.
+          </p>
+          <a
+            href="https://lu.ma/hazlo"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="clases-cta"
+          >
+            Unirme y asistir en vivo
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="clases-grid-section">
+      <div class="container">
+
+        <!-- Filtros -->
+        <div class="filter-bar">
+          {CATEGORIES.map(cat => (
+            <button class={`filter-chip${cat === 'Todos' ? ' active' : ''}`} data-category={cat}>
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <!-- Contador -->
+        <p class="clases-count" id="claseCount">{clases.length} sesiones</p>
+
+        <!-- Cards -->
+        <div class="clases-grid" id="clasesGrid">
+          {clases.map((c) => (
+            <a
+              href={`https://www.youtube.com/watch?v=${c.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="clase-card"
+              data-categories={c.categories.join(',')}
+            >
+              <!-- Thumbnail -->
+              <div class="clase-thumb">
+                <img
+                  src={`https://img.youtube.com/vi/${c.id}/mqdefault.jpg`}
+                  alt={c.title}
+                  loading="lazy"
+                />
+                <div class="clase-play">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)" stroke="white" stroke-width="1.5"/>
+                    <polygon points="10 8 17 12 10 16" fill="white"/>
+                  </svg>
+                </div>
+                <span class={`clase-badge ${badgeColor[c.badge] ?? ''}`}>{c.badge}</span>
+              </div>
+
+              <!-- Info -->
+              <div class="clase-info">
+                <h3 class="clase-title">{c.title}</h3>
+                <div class="clase-meta">
+                  <span class="clase-speaker">{c.speaker}</span>
+                  <span class="clase-sep">·</span>
+                  <span class="clase-role">{c.role}</span>
+                </div>
+                <div class="clase-footer">
+                  <div class="clase-cats">
+                    {c.categories.map(cat => (
+                      <span class="cat-pill">{cat}</span>
+                    ))}
+                  </div>
+                  <span class="clase-date">{c.date}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <Copyright />
+</Layout>
+
+<style is:global>
+  .clases-main { padding-top: 4rem; }
+
+  /* ── HERO ── */
+  .clases-hero {
+    padding: 5rem 0 3rem;
+    text-align: center;
+  }
+  .clases-hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .prog-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--primary-purple);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:0.5; transform:scale(0.8); }
+  }
+  .clases-title {
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-primary);
+  }
+  .title-gradient {
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .clases-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.65;
+  }
+  .clases-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 100px;
+    background: var(--primary-purple);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s, gap 0.2s;
+  }
+  .clases-cta:hover { opacity: 0.85; gap: 0.75rem; }
+
+  /* ── GRID SECTION ── */
+  .clases-grid-section { padding: 0 0 6rem; }
+
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .filter-chip:hover { border-color: var(--primary-purple); color: var(--text-primary); }
+  .filter-chip.active { background: var(--primary-purple); border-color: var(--primary-purple); color: #fff; }
+
+  .clases-count {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  .clases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* ── CARD ── */
+  .clase-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .clase-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+    border-color: var(--primary-purple);
+  }
+
+  /* Thumbnail */
+  .clase-thumb {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #0f172a;
+  }
+  .clase-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .clase-card:hover .clase-thumb img { transform: scale(1.03); }
+
+  .clase-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .clase-card:hover .clase-play { opacity: 1; }
+
+  /* Badges */
+  .clase-badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.22rem 0.6rem;
+    border-radius: 100px;
+  }
+  .badge-charla  { background: rgba(177,152,233,0.2); border: 1px solid rgba(177,152,233,0.4); color: #b198e9; }
+  .badge-workshop{ background: rgba(107,232,182,0.15); border: 1px solid rgba(107,232,182,0.3); color: #6BE8B6; }
+  .badge-webinar { background: rgba(96,165,250,0.15); border: 1px solid rgba(96,165,250,0.3); color: #60a5fa; }
+
+  /* Info */
+  .clase-info {
+    padding: 1rem 1.1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .clase-title {
+    font-size: 0.93rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+  .clase-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+  }
+  .clase-speaker { font-weight: 600; color: var(--text-primary); }
+  .clase-sep { color: var(--border); }
+
+  .clase-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+  .clase-cats { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+  .cat-pill {
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.18rem 0.5rem;
+    border-radius: 100px;
+    background: rgba(177,152,233,0.1);
+    border: 1px solid rgba(177,152,233,0.2);
+    color: var(--primary-purple);
+  }
+  .clase-date {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .clases-hero { padding: 3.5rem 0 2rem; }
+    .clases-grid { grid-template-columns: 1fr; }
+    .filter-bar { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 0.25rem; scrollbar-width: none; }
+    .filter-bar::-webkit-scrollbar { display: none; }
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+  const cards = document.querySelectorAll<HTMLElement>('.clase-card');
+  const counter = document.getElementById('claseCount');
+
+  function updateCount() {
+    const visible = [...cards].filter(c => c.style.display !== 'none').length;
+    if (counter) counter.textContent = `${visible} sesión${visible !== 1 ? 'es' : ''}`;
+  }
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.dataset.category ?? 'Todos';
+      cards.forEach(card => {
+        const cats = card.dataset.categories?.split(',') ?? [];
+        card.style.display = (cat === 'Todos' || cats.includes(cat)) ? '' : 'none';
+      });
+      updateCount();
+    });
+  });
+</script>
